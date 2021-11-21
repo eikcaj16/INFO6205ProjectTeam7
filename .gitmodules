@@ -1,0 +1,7 @@
+[submodule "third_party/huskysort"]
+	path = third_party/huskysort
+	url = https://github.com/rchillyard/The-repository-formerly-known-as.git
+[submodule "third_party/info6205"]
+	path = third_party/info6205
+	url = https://github.com/rchillyard/INFO6205.git
+    branch = Fall2021
