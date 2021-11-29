@@ -11,7 +11,7 @@ public class LetterMap {
     final static Map<Character, Integer> index4 = new HashMap<>();
     final static Map<Character, Integer> index5 = new HashMap<>();
     static {
-        int index = 0;
+        int index = 1;
         index0.put('a', index++);
         index0.put('b', index++);
         index0.put('c', index++);
@@ -36,7 +36,7 @@ public class LetterMap {
         index0.put('y', index++);
         index0.put('z', index++);
 
-        index = 0;
+        index = 1;
         index1.put('a', index++);
         index1.put('e', index++);
         index1.put('h', index++);
@@ -46,7 +46,7 @@ public class LetterMap {
         index1.put('r', index++);
         index1.put('u', index++);
         index1.put('v', index++);
-        index = 0;
+        index = 1;
         index2.put('a', index++);
         index2.put('e', index++);
         index2.put('g', index++);
@@ -54,7 +54,7 @@ public class LetterMap {
         index2.put('n', index++);
         index2.put('o', index++);
         index2.put('u', index++);
-        index = 0;
+        index = 1;
         index3.put('a', index++);
         index3.put('e', index++);
         index3.put('g', index++);
@@ -62,13 +62,13 @@ public class LetterMap {
         index3.put('n', index++);
         index3.put('o', index++);
         index3.put('u', index++);
-        index = 0;
+        index = 1;
         index4.put('g', index++);
         index4.put('i', index++);
         index4.put('n', index++);
         index4.put('o', index++);
         index4.put('u', index++);
-        index = 0;
+        index = 1;
         index5.put('g', index++);
     }
 }
