@@ -81,6 +81,7 @@ public class ChsCharToIdxArrBySylla extends AbstractChsCharToIdxArr {
     return index_arr;
   }
 
+  @Override
   public int[] CharAt(String s){
     int len = s.length();
     int[] index_arr = new int[len * 4];

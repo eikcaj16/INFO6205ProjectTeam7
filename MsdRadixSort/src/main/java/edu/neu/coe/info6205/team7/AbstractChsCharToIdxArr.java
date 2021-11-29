@@ -9,6 +9,7 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 
 public abstract class AbstractChsCharToIdxArr {
   public abstract int[] CharAt(char c);
+  public abstract int[] CharAt(String s);
 
   static HanyuPinyinOutputFormat pinyinOutputFormat = new HanyuPinyinOutputFormat();
   static {
