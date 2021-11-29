@@ -10,7 +10,6 @@ public class LetterMap {
 
   static{
     int index = 0;
-    FirstIndex.put("", index++);
     FirstIndex.put("a", index++);
     FirstIndex.put("ai", index++);
     FirstIndex.put("ao", index++);

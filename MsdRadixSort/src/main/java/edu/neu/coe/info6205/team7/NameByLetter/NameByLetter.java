@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.team7;
+package edu.neu.coe.info6205.team7.NameByLetter;
 
 import java.util.ArrayList;
 import java.util.List;

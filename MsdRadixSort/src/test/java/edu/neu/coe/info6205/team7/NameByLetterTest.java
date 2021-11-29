@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.team7;
 
+import edu.neu.coe.info6205.team7.NameByLetter.NameByLetter;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
