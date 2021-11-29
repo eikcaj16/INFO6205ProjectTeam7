@@ -1,31 +1,10 @@
 package edu.neu.coe.info6205.team7.NameBySyllabification;
 
-import edu.neu.coe.info6205.team7.IChsCharToIdxArr;
+import edu.neu.coe.info6205.team7.AbstractChsCharToIdxArr;
 import java.util.LinkedList;
 import java.util.List;
-import net.sourceforge.pinyin4j.PinyinHelper;
 
-public class ChsCharToIdxArrBySylla implements IChsCharToIdxArr {
-
-  /**
-   *
-   * @param c A single Chinese character
-   * @return A string represents pinyin of the Chinese character, including tone
-   */
-  public static String TransferChineseToPinyin(char c){
-    String[] pinyin = PinyinHelper.toHanyuPinyinStringArray(c);
-    if(pinyin.length > 0){
-      if(pinyin[0].contains(":")){
-        pinyin[0] = pinyin[0].replace(":", "");
-      }
-      return pinyin[0];
-    }
-    else{
-      System.exit(-1);
-    }
-    return " ";
-  }
-
+public class ChsCharToIdxArrBySylla extends AbstractChsCharToIdxArr {
   /**
    *
    * @param pinyin A string represents pinyin a single Chinese character
@@ -84,7 +63,8 @@ public class ChsCharToIdxArrBySylla implements IChsCharToIdxArr {
    * @param c A single Chinese character
    * @return An index array of each syllabification, which size is 4
    */
-  public static int[] CharAt(char c){
+  @Override
+  public int[] CharAt(char c){
     String pinyin = TransferChineseToPinyin(c);
     if(pinyin == null){
       System.exit(-1);

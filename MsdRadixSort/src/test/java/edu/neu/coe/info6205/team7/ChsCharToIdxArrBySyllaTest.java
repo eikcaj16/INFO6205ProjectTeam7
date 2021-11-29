@@ -1,10 +1,11 @@
 package edu.neu.coe.info6205.team7;
 import edu.neu.coe.info6205.team7.NameBySyllabification.ChsCharToIdxArrBySylla;
 import org.junit.Test;
-import org.w3c.dom.ls.LSInput;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -96,24 +97,41 @@ public class ChsCharToIdxArrBySyllaTest {
 
     @Test
     public void testCharAt1(){
+        ChsCharToIdxArrBySylla processor = new ChsCharToIdxArrBySylla();
+
         String name1 = "祝无双";
-        int[] index11 = ChsCharToIdxArrBySylla.CharAt(name1.charAt(0));
-        int[] index12 = ChsCharToIdxArrBySylla.CharAt(name1.charAt(1));
-        int[] index13 = ChsCharToIdxArrBySylla.CharAt(name1.charAt(2));
+        int[] index11 = processor.CharAt(name1.charAt(0));
+        int[] index12 = processor.CharAt(name1.charAt(1));
+        int[] index13 = processor.CharAt(name1.charAt(2));
+
+        assertEquals(Arrays.stream(index11).boxed().collect(Collectors.toList()), Arrays.asList(35, 19, 0, 4));
+        assertEquals(Arrays.stream(index12).boxed().collect(Collectors.toList()), Arrays.asList(31, 19, 0, 2));
+        assertEquals(Arrays.stream(index13).boxed().collect(Collectors.toList()), Arrays.asList(29, 19, 5, 1));
 
         String name2 = "庄周";
-        int[] index21 = ChsCharToIdxArrBySylla.CharAt(name2.charAt(0));
-        int[] index22 = ChsCharToIdxArrBySylla.CharAt(name2.charAt(1));
+        int[] index21 = processor.CharAt(name2.charAt(0));
+        int[] index22 = processor.CharAt(name2.charAt(1));
 
-        System.out.println(Arrays.toString(index11));
-        System.out.println(Arrays.toString(index12));
-        System.out.println(Arrays.toString(index13));
-        System.out.println(Arrays.toString(index21));
-        System.out.println(Arrays.toString(index22));
+        assertEquals(Arrays.stream(index21).boxed().collect(Collectors.toList()), Arrays.asList(35, 19, 5, 1));
+        assertEquals(Arrays.stream(index22).boxed().collect(Collectors.toList()), Arrays.asList(35, 18, 0, 1));
     }
 
     @Test
     public void testCharAt2(){
+        ChsCharToIdxArrBySylla processor = new ChsCharToIdxArrBySylla();
 
+        String name1 = "杨洋";
+        int[] index11 = processor.CharAt(name1.charAt(0));
+        int[] index12 = processor.CharAt(name1.charAt(1));
+
+        assertEquals(Arrays.stream(index11).boxed().collect(Collectors.toList()), Arrays.asList(33, 5, 0, 2));
+        assertEquals(Arrays.stream(index12).boxed().collect(Collectors.toList()), Arrays.asList(33, 5, 0, 2));
+
+        String name2 = "倪妮";
+        int[] index21 = processor.CharAt(name2.charAt(0));
+        int[] index22 = processor.CharAt(name2.charAt(1));
+
+        assertEquals(Arrays.stream(index21).boxed().collect(Collectors.toList()), Arrays.asList(22, 11, 0, 2));
+        assertEquals(Arrays.stream(index22).boxed().collect(Collectors.toList()), Arrays.asList(22, 11, 0, 1));
     }
 }
