@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.team7;
+package edu.neu.coe.info6205.team7.NameBySyllabification;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,72 +14,6 @@ public class NameBySyllabification implements Comparable<NameBySyllabification> 
   private final String Name;
   private final List<String> NamePinyin;
   private final List<List<String>> NameSplitPinyin;
-
-  private final static Map<String, Integer> FirstIndex = new HashMap<>();
-  private final static Map<String, Integer> NextIndex = new HashMap<>();
-
-  static{
-    int index = 0;
-    FirstIndex.put("a", index++);
-    FirstIndex.put("ai", index++);
-    FirstIndex.put("ao", index++);
-    FirstIndex.put("ang", index++);
-    FirstIndex.put("b", index++);
-    FirstIndex.put("c", index++);
-    FirstIndex.put("ch", index++);
-    FirstIndex.put("d", index++);
-    FirstIndex.put("e", index++);
-    FirstIndex.put("ei", index++);
-    FirstIndex.put("en", index++);
-    FirstIndex.put("eng", index++);
-    FirstIndex.put("er", index++);
-    FirstIndex.put("f", index++);
-    FirstIndex.put("g", index++);
-    FirstIndex.put("h", index++);
-    FirstIndex.put("i", index++);
-    FirstIndex.put("j", index++);
-    FirstIndex.put("k", index++);
-    FirstIndex.put("l", index++);
-    FirstIndex.put("m", index++);
-    FirstIndex.put("n", index++);
-    FirstIndex.put("o", index++);
-    FirstIndex.put("ou", index++);
-    FirstIndex.put("p", index++);
-    FirstIndex.put("q", index++);
-    FirstIndex.put("r", index++);
-    FirstIndex.put("s", index++);
-    FirstIndex.put("sh", index++);
-    FirstIndex.put("t", index++);
-    FirstIndex.put("w", index++);
-    FirstIndex.put("x", index++);
-    FirstIndex.put("y", index++);
-    FirstIndex.put("z", index++);
-    FirstIndex.put("zh", index);
-
-    index = 0;
-    NextIndex.put("a", index++);
-    NextIndex.put("ai", index++);
-    NextIndex.put("ao", index++);
-    NextIndex.put("an", index++);
-    NextIndex.put("ang", index++);
-    NextIndex.put("e", index++);
-    NextIndex.put("ei", index++);
-    NextIndex.put("en", index++);
-    NextIndex.put("eng", index++);
-    NextIndex.put("er", index++);
-    NextIndex.put("i", index++);
-    NextIndex.put("ie", index++);
-    NextIndex.put("in", index++);
-    NextIndex.put("ing", index++);
-    NextIndex.put("iu", index++);
-    NextIndex.put("o", index++);
-    NextIndex.put("ong", index++);
-    NextIndex.put("ou", index++);
-    NextIndex.put("u", index++);
-    NextIndex.put("ue", index++);
-    NextIndex.put("ui", index++);
-    NextIndex.put("un", index);
-  }
 
   public NameBySyllabification(String name){
     Name = name;
@@ -134,12 +68,12 @@ public class NameBySyllabification implements Comparable<NameBySyllabification> 
 
           String sub = pinyin.substring(i, i + step);
 
-          if(i < 1 && FirstIndex.containsKey(sub)) {
+          if(i < 1 && LetterMap.FirstIndex.containsKey(sub)) {
             slice.add(sub);
             i += step;
             break;
           }
-          else if(NextIndex.containsKey(sub)) {
+          else if(LetterMap.NextIndex.containsKey(sub)) {
             slice.add(sub);
             i += step;
             break;
@@ -179,11 +113,11 @@ public class NameBySyllabification implements Comparable<NameBySyllabification> 
         if(pinyin_1.get(j).length() > 0 && pinyin_2.get(j).length() > 0) {
           // Take each syllable from pinyin to compare
           if (j == 0) {
-            value_1 = FirstIndex.get(pinyin_1.get(j));
-            value_2 = FirstIndex.get(pinyin_2.get(j));
+            value_1 = LetterMap.FirstIndex.get(pinyin_1.get(j));
+            value_2 = LetterMap.FirstIndex.get(pinyin_2.get(j));
           } else if (j < 3) {
-            value_1 = NextIndex.get(pinyin_1.get(j));
-            value_2 = NextIndex.get(pinyin_2.get(j));
+            value_1 = LetterMap.NextIndex.get(pinyin_1.get(j));
+            value_2 = LetterMap.NextIndex.get(pinyin_2.get(j));
           } else {
             value_1 = Integer.parseInt(pinyin_1.get(j));
             value_2 = Integer.parseInt(pinyin_2.get(j));

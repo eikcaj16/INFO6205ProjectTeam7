@@ -2,10 +2,8 @@ package edu.neu.coe.info6205.team7;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
+import edu.neu.coe.info6205.team7.NameBySyllabification.NameBySyllabification;
 import java.util.Arrays;
-import java.util.List;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class NameBySyllabificationTest {
