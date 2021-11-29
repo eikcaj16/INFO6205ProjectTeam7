@@ -81,6 +81,27 @@ public class ChsCharToIdxArrBySylla extends AbstractChsCharToIdxArr {
     return index_arr;
   }
 
+  public int[] CharAt(String s){
+    int len = s.length();
+    int[] index_arr = new int[len * 4];
+
+    for(int i = 0; i < len; i++){
+      String pinyin = TransferChineseToPinyin(s.charAt(i));
+      if(pinyin == null){
+        System.exit(-1);
+      }
+
+      List<String> slice = SpiltBySyllabification(pinyin);
+
+      int i4 = i * 4;
+      index_arr[i4] = LetterMap.FirstIndex.get(slice.get(0));
+      index_arr[i4 + 1] = LetterMap.NextIndex.get(slice.get(1));
+      index_arr[i4 + 2] = LetterMap.NextIndex.get(slice.get(2));
+      index_arr[i4 + 3] = Integer.parseInt(slice.get(3));
+    }
+
+    return index_arr;
+  }
 
 
 }
