@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
-public class ChasCharToIdxArrByLetterTest {
+public class ChsCharToIdxArrByLetterTest {
     @Test
     public void testIdx1(){
         ChsCharToIdxArrByLetter chsCharToIdxArrByLetter = new ChsCharToIdxArrByLetter();
