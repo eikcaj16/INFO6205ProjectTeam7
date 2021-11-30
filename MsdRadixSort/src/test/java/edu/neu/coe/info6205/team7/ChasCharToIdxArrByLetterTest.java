@@ -37,4 +37,14 @@ public class ChasCharToIdxArrByLetterTest {
         int[] idx2 = chsCharToIdxArrByLetter.CharAt('装');
         assertEquals(Arrays.asList(23, 3, 7, 1, 3, 1, 1),Arrays.stream(idx2).boxed().collect(Collectors.toList()));
     }
+    @Test
+    public void testStringIdx1(){
+        ChsCharToIdxArrByLetter chsCharToIdxArrByLetter = new ChsCharToIdxArrByLetter();
+        int[] idx1 = chsCharToIdxArrByLetter.CharAt("陈然");
+        assertEquals(Arrays.asList(3,3,2,5,2,0,0,17,1,5,2,0,0,0),Arrays.stream(idx1).boxed().collect(Collectors.toList()));
+        int[] idx2 = chsCharToIdxArrByLetter.CharAt("李白");
+        assertEquals(Arrays.asList(11,4,3,0,0,0,0,2,1,4,2,0,0,0),Arrays.stream(idx2).boxed().collect(Collectors.toList()));
+        int[] idx3 = chsCharToIdxArrByLetter.CharAt("杜甫");
+        assertEquals(Arrays.asList(4,8,4,0,0,0,0,6,8,3,0,0,0,0),Arrays.stream(idx3).boxed().collect(Collectors.toList()));
+    }
 }
