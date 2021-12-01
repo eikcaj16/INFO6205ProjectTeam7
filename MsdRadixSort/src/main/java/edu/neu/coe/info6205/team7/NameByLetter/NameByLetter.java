@@ -10,12 +10,27 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
-public class NameByLetter implements Comparable<NameByLetter> {
+public class NameByLetter implements
+    Comparable<NameByLetter>, CharSequence {
 
   private final String name;
   private final List<String> pinyin;
   private final List<Integer> tone;
   HanyuPinyinOutputFormat pinyinOutputFormat = new HanyuPinyinOutputFormat();
+
+  public NameByLetter(String name) {
+    this.name = name;
+    pinyin = new ArrayList<>();
+    tone = new ArrayList<>();
+    pinyinOutputFormat.setVCharType(HanyuPinyinVCharType.WITH_V);
+    pinyinOutputFormat.setToneType(HanyuPinyinToneType.WITH_TONE_NUMBER);
+    pinyinOutputFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+    TransferChineseToPinyin();
+  }
+
+  public String getName(){
+    return name;
+  }
 
   public List<String> getPinyin() {
     return pinyin;
@@ -25,17 +40,27 @@ public class NameByLetter implements Comparable<NameByLetter> {
     return tone;
   }
 
-  public NameByLetter(String name) {
-    this.name = name;
-    pinyin = new ArrayList<>();
-    tone = new ArrayList<>();
-    pinyinOutputFormat.setVCharType(HanyuPinyinVCharType.WITH_V);
-    pinyinOutputFormat.setToneType(HanyuPinyinToneType.WITH_TONE_NUMBER);
-    pinyinOutputFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-    chineseToPinyin();
+  @Override
+  public int length() {
+    return name.length();
   }
 
-  public void chineseToPinyin() {
+  @Override
+  public char charAt(int index) {
+    return name.charAt(index);
+  }
+
+  @Override
+  public CharSequence subSequence(int start, int end) {
+    return name.substring(start, end);
+  }
+
+  @Override
+  public String toString() {
+    return name + " " + pinyin + " " + tone;
+  }
+
+  public void TransferChineseToPinyin() {
     for (Character c : name.toCharArray()) {
       String[] temp = new String[0];
       try {

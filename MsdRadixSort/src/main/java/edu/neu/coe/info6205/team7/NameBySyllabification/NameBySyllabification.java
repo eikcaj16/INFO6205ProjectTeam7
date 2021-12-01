@@ -1,15 +1,14 @@
 package edu.neu.coe.info6205.team7.NameBySyllabification;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 
 
-public class NameBySyllabification implements Comparable<NameBySyllabification> {
+public class NameBySyllabification implements
+    Comparable<NameBySyllabification>, CharSequence {
 
   private final String Name;
   private final List<String> NamePinyin;
@@ -20,8 +19,8 @@ public class NameBySyllabification implements Comparable<NameBySyllabification> 
     NamePinyin = new ArrayList<>();
     NameSplitPinyin = new ArrayList<>();
 
-//    TransferChineseToPinyin();
-//    SpiltBySyllabification();
+    TransferChineseToPinyin();
+    SpiltBySyllabification();
   }
 
   public String getName() {
@@ -34,6 +33,26 @@ public class NameBySyllabification implements Comparable<NameBySyllabification> 
 
   public List<List<String>> getNameSplitPinyin() {
     return NameSplitPinyin;
+  }
+
+  @Override
+  public int length() {
+    return Name.length();
+  }
+
+  @Override
+  public char charAt(int index) {
+    return Name.charAt(index);
+  }
+
+  @Override
+  public CharSequence subSequence(int start, int end) {
+    return new NameBySyllabification(Name.substring(start, end));
+  }
+
+  @Override
+  public String toString() {
+    return Name + " " + NamePinyin;
   }
 
   public void TransferChineseToPinyin(){
@@ -106,35 +125,37 @@ public class NameBySyllabification implements Comparable<NameBySyllabification> 
     for(int i = 0; i < compare_length; i++){
       List<String> pinyin_1 = this.NameSplitPinyin.get(i);
       List<String> pinyin_2 = o.NameSplitPinyin.get(i);
+
       for (int j = 0; j < 4; j++) {
-        int value_1, value_2;
-//        System.out.println(this.Name + " " + o.Name + " " + pinyin_1.get(j) + " " + pinyin_2.get(j));
+        int value_1 = 0;
+        int value_2 = 0;
 
-        if(pinyin_1.get(j).length() > 0 && pinyin_2.get(j).length() > 0) {
-          // Take each syllable from pinyin to compare
-          if (j == 0) {
-            value_1 = LetterMap.FirstIndex.get(pinyin_1.get(j));
-            value_2 = LetterMap.FirstIndex.get(pinyin_2.get(j));
-          } else if (j < 3) {
-            value_1 = LetterMap.NextIndex.get(pinyin_1.get(j));
-            value_2 = LetterMap.NextIndex.get(pinyin_2.get(j));
-          } else {
-            value_1 = Integer.parseInt(pinyin_1.get(j));
-            value_2 = Integer.parseInt(pinyin_2.get(j));
-          }
+        String letter_1 = pinyin_1.get(j);
+        String letter_2 = pinyin_2.get(j);
 
-          if (value_1 < value_2) {
-            return -1;
-          } else if (value_1 > value_2) {
-            return 1;
-          } else if (i == compare_length - 1 && j == 3) {
-            return Integer.compare(this.NameSplitPinyin.size(), o.NameSplitPinyin.size());
-          }
+        switch (j){
+          case 0:
+            value_1 = LetterMap.FirstIndex.get(letter_1);
+            value_2 = LetterMap.FirstIndex.get(letter_2);
+            break;
+          case 1:
+          case 2:
+            value_1 = LetterMap.NextIndex.get(letter_1);
+            value_2 = LetterMap.NextIndex.get(letter_2);
+            break;
+          case 3:
+            value_1 = Integer.parseInt(letter_1);
+            value_2 = Integer.parseInt(letter_2);
+            break;
+        }
+
+        if(value_1 != value_2){
+          return Integer.compare(value_1, value_2);
         }
       }
     }
 
-    return 0;
+    return Integer.compare(this.Name.length(), o.getName().length());
   }
 
   public static void demo(){
@@ -160,8 +181,6 @@ public class NameBySyllabification implements Comparable<NameBySyllabification> 
     List<NameBySyllabification> namesProcessor = new ArrayList<>();
     for(String s: names){
       NameBySyllabification name = new NameBySyllabification(s);
-      name.TransferChineseToPinyin();
-      name.SpiltBySyllabification();
       namesProcessor.add(name);
     }
 
