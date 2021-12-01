@@ -13,6 +13,7 @@ public class LetterMap {
     FirstIndex.put("a", index++);
     FirstIndex.put("ai", index++);
     FirstIndex.put("ao", index++);
+    FirstIndex.put("an", index++);
     FirstIndex.put("ang", index++);
     FirstIndex.put("b", index++);
     FirstIndex.put("c", index++);
