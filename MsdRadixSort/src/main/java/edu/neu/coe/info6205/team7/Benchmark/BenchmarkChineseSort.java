@@ -20,35 +20,36 @@ import java.util.List;
 public class BenchmarkChineseSort {
 
   int nRuns = 5;
-
+  int[] datasetSize = {250000,500000,1000000,2000000,4000000};
   public final static TimeLogger[] timeLoggersLinearithmic = {
       new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
   };
 
   public static void main(String[] args) {
     BenchmarkChineseSort benchmark = new BenchmarkChineseSort();
-    benchmark.sortStrings();
+    benchmark.runBenchmark();
+  }
+  private void runBenchmark(){
+    // Read words from file
+    List<String> toSort4M = readChineseArrayFromFile("/shuffledChinese.txt");
+    toSort4M.addAll(toSort4M);
+    toSort4M.addAll(toSort4M);
+    for (int size: datasetSize){
+      sortChinese(toSort4M.subList(0,size).toArray(new String[0]),constructNameByLetter(toSort4M,size).toArray(new NameByLetter[0]),
+              constructNameNameBySyllabification(toSort4M,size).toArray(new NameBySyllabification[0]));
+    }
   }
 
-  private void sortStrings() {
-    // Read words from file
-    List<String> toSort = readChineseArrayFromFile("/shuffledChinese.txt");
-    // Construct NameByLetter array
-    NameByLetter[] nameByLetters = constructNameByLetter(toSort).toArray(
-        new NameByLetter[toSort.size()]);
-    // Construct NameBySyllabification array
-    NameBySyllabification[] nameBySyllabifications = constructNameNameBySyllabification(
-        toSort).toArray(new NameBySyllabification[toSort.size()]);
+  private void sortChinese(String[] toSort, NameByLetter[] nameByLetters, NameBySyllabification[] nameBySyllabification) {
 
-    int nWords = toSort.size();
-
+    int nWords = toSort.length;
     // Tim Sort
     new SorterBenchmark<NameByLetter>(NameByLetter.class, null,
         new TimSort<NameByLetter>(new HelperWIthTesting<>("TimSort", nWords)), nameByLetters, nRuns,
         timeLoggersLinearithmic).run(nWords);
     new SorterBenchmark<>(NameBySyllabification.class, null,
         new TimSort<NameBySyllabification>(new HelperWIthTesting<>("TimSort", nWords)),
-        nameBySyllabifications, nRuns, timeLoggersLinearithmic).run(nWords);
+        nameBySyllabification, nRuns, timeLoggersLinearithmic).run(nWords);
 
     // Dual Pivot Quick Sort
     new SorterBenchmark<NameByLetter>(NameByLetter.class, null, new QuickSort_DualPivot(
@@ -56,7 +57,7 @@ public class BenchmarkChineseSort {
         nRuns, timeLoggersLinearithmic).run(nWords);
     new SorterBenchmark<NameBySyllabification>(NameBySyllabification.class, null,
         new QuickSort_DualPivot(new HelperWIthTesting<>("QuickSort_DualPivot",
-            nWords)), nameBySyllabifications, nRuns,
+            nWords)), nameBySyllabification, nRuns,
         timeLoggersLinearithmic).run(nWords);
 
     // Husky Sort
@@ -66,21 +67,21 @@ public class BenchmarkChineseSort {
     new SorterBenchmark<>(NameBySyllabification.class, null,
         new PureHuskySortWithHelper<>(nameCoderBySylla,
             new HelperWIthTesting<>("HuskySort with NameBySyllabification", nWords)),
-        nameBySyllabifications, nRuns, timeLoggersLinearithmic).run(nWords);
+        nameBySyllabification, nRuns, timeLoggersLinearithmic).run(nWords);
   }
 
-  private List<NameByLetter> constructNameByLetter(List<String> src) {
+  private List<NameByLetter> constructNameByLetter(List<String> src,int size) {
     List<NameByLetter> res = new ArrayList<>();
-    for (String s : src) {
-      res.add(new NameByLetter(s));
+    for (int i = 0;i < size;i++) {
+      res.add(new NameByLetter(src.get(i)));
     }
     return res;
   }
 
-  private List<NameBySyllabification> constructNameNameBySyllabification(List<String> src) {
+  private List<NameBySyllabification> constructNameNameBySyllabification(List<String> src,int size) {
     List<NameBySyllabification> res = new ArrayList<>();
-    for (String s : src) {
-      res.add(new NameBySyllabification(s));
+    for (int i = 0;i < size;i++) {
+      res.add(new NameBySyllabification(src.get(i)));
     }
     return res;
   }
