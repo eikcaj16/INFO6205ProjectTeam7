@@ -44,7 +44,7 @@ public class BenchmarkChineseSort {
 
     int nWords = toSort.length;
     // Tim Sort
-    new SorterBenchmark<NameByLetter>(NameByLetter.class, null,
+    new SorterBenchmark<>(NameByLetter.class, null,
         new TimSort<NameByLetter>(new HelperWIthTesting<>("TimSort", nWords)), nameByLetters, nRuns,
         timeLoggersLinearithmic).run(nWords);
     new SorterBenchmark<>(NameBySyllabification.class, null,
@@ -52,7 +52,7 @@ public class BenchmarkChineseSort {
         nameBySyllabification, nRuns, timeLoggersLinearithmic).run(nWords);
 
     // Dual Pivot Quick Sort
-    new SorterBenchmark<NameByLetter>(NameByLetter.class, null, new QuickSort_DualPivot(
+    new SorterBenchmark<>(NameByLetter.class, null, new QuickSort_DualPivot<NameByLetter>(
         new HelperWIthTesting<>("QuickSort_DualPivot with NameByLetter", nWords)), nameByLetters,
         nRuns, timeLoggersLinearithmic).run(nWords);
     new SorterBenchmark<NameBySyllabification>(NameBySyllabification.class, null,
@@ -90,6 +90,7 @@ public class BenchmarkChineseSort {
     InputStream path = getClass().getResourceAsStream(resource);
     List<String> res = new ArrayList<>();
     try {
+      assert path != null;
       BufferedReader reader = new BufferedReader(new InputStreamReader(path));
       String s;
       while ((s = reader.readLine()) != null) {
