@@ -9,7 +9,7 @@ public class LetterMap {
   public final static Map<String, Integer> NextIndex = new HashMap<>();
 
   static{
-    int index = 0;
+    int index = 1;
     FirstIndex.put("a", index++);
     FirstIndex.put("ai", index++);
     FirstIndex.put("ao", index++);
