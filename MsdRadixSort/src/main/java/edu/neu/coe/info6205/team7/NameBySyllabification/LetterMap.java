@@ -12,9 +12,9 @@ public class LetterMap {
     int index = 1;
     FirstIndex.put("a", index++);
     FirstIndex.put("ai", index++);
-    FirstIndex.put("ao", index++);
     FirstIndex.put("an", index++);
     FirstIndex.put("ang", index++);
+    FirstIndex.put("ao", index++);
     FirstIndex.put("b", index++);
     FirstIndex.put("c", index++);
     FirstIndex.put("ch", index++);
@@ -51,9 +51,9 @@ public class LetterMap {
     NextIndex.put("", index++);
     NextIndex.put("a", index++);
     NextIndex.put("ai", index++);
-    NextIndex.put("ao", index++);
     NextIndex.put("an", index++);
     NextIndex.put("ang", index++);
+    NextIndex.put("ao", index++);
     NextIndex.put("e", index++);
     NextIndex.put("ei", index++);
     NextIndex.put("en", index++);
@@ -71,6 +71,7 @@ public class LetterMap {
     NextIndex.put("ue", index++);
     NextIndex.put("ui", index++);
     NextIndex.put("un", index);
+    NextIndex.put("v", index);
   }
 
 }
