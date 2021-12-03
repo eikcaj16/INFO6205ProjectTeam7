@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.team7.NameByLetter;
 
+import edu.neu.coe.info6205.team7.NameBySyllabification.ChsCharToIdxArrBySylla;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,30 +15,23 @@ public class NameByLetter implements
     Comparable<NameByLetter>, CharSequence {
 
   private final String name;
-  private final List<String> pinyin;
-  private final List<Integer> tone;
+//  private final List<String> pinyin;
+//  private final List<Integer> tone;
   HanyuPinyinOutputFormat pinyinOutputFormat = new HanyuPinyinOutputFormat();
+
+  private final int[] IndexArr;
+  private final int pinyin_length;
 
   public NameByLetter(String name) {
     this.name = name;
-    pinyin = new ArrayList<>();
-    tone = new ArrayList<>();
-    pinyinOutputFormat.setVCharType(HanyuPinyinVCharType.WITH_V);
-    pinyinOutputFormat.setToneType(HanyuPinyinToneType.WITH_TONE_NUMBER);
-    pinyinOutputFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-    TransferChineseToPinyin();
+
+    ChsCharToIdxArrByLetter processor = new ChsCharToIdxArrByLetter();
+    IndexArr = processor.CharAt(name);
+    pinyin_length = IndexArr.length / 7;
   }
 
   public String getName(){
     return name;
-  }
-
-  public List<String> getPinyin() {
-    return pinyin;
-  }
-
-  public List<Integer> getTone() {
-    return tone;
   }
 
   @Override
@@ -57,83 +51,24 @@ public class NameByLetter implements
 
   @Override
   public String toString() {
-    return name + " " + pinyin + " " + tone;
-  }
-
-  public void TransferChineseToPinyin() {
-    for (Character c : name.toCharArray()) {
-      String[] temp = new String[0];
-      try {
-        temp = PinyinHelper.toHanyuPinyinStringArray(c, pinyinOutputFormat);
-      } catch (BadHanyuPinyinOutputFormatCombination e) {
-        e.printStackTrace();
-      }
-      if (temp.length > 0) {
-        pinyin.add(temp[0].substring(0, temp[0].length() - 1));
-        int thisTone = temp[0].charAt(temp[0].length() - 1) - '0';
-        tone.add(thisTone == 5 ? 0 : thisTone);
-      }
-    }
+    return name;
   }
 
   @Override
   public int compareTo(NameByLetter o) {
-    int length = Math.min(pinyin.size(), o.pinyin.size());
-    for (int i = 0; i < length; i++) {
-      String pinyin1 = pinyin.get(i);
-      String pinyin2 = o.pinyin.get(i);
-      int value1 = 0;
-      int value2 = 0;
-      int length1 = pinyin1.length();
-      int length2 = pinyin2.length();
+    int length = Math.min(name.length(), o.name.length());
 
-      int index = 0;
-      while (index < Math.min(length1, length2)) {
-        switch (index) {
-          case 0:
-            value1 = LetterMap.index0.get(pinyin1.charAt(0));
-            value2 = LetterMap.index0.get(pinyin2.charAt(0));
-            break;
-          case 1:
-            value1 = LetterMap.index1.get(pinyin1.charAt(1));
-            value2 = LetterMap.index1.get(pinyin2.charAt(1));
-            break;
-          case 2:
-            value1 = LetterMap.index2.get(pinyin1.charAt(2));
-            value2 = LetterMap.index2.get(pinyin2.charAt(2));
-            break;
-          case 3:
-            value1 = LetterMap.index3.get(pinyin1.charAt(3));
-            value2 = LetterMap.index3.get(pinyin2.charAt(3));
-            break;
-          case 4:
-            value1 = LetterMap.index4.get(pinyin1.charAt(4));
-            value2 = LetterMap.index4.get(pinyin2.charAt(4));
-            break;
-          case 5:
-            value1 = LetterMap.index5.get(pinyin1.charAt(5));
-            value2 = LetterMap.index5.get(pinyin2.charAt(5));
-            break;
+    for (int i = 0; i < length; i++) {
+      for(int j = 0; j < 7; j++) {
+        int value_1 = IndexArr[i * 7 + j];
+        int value_2 = o.IndexArr[i * 7 + j];
+
+        if(value_1 != value_2){
+          return Integer.compare(value_1, value_2);
         }
-        if (value1 != value2) {
-          return Integer.compare(value1, value2);
-        }
-        if (length1 < index + 2 || length2 < index + 2) {
-          if (length1 == length2) {
-            if (tone.get(i).equals(o.tone.get(i))) {
-              // Two characters have the same pinyin. Stop Comparing and jump to the next character.
-              index = 6;
-              continue;
-            }
-            return tone.get(i).compareTo(o.tone.get(i));
-          } else {
-            return Integer.compare(length1, length2);
-          }
-        }
-        index++;
       }
     }
-    return Integer.compare(pinyin.size(), o.pinyin.size());
+    return Integer.compare(name.length(), o.name.length());
   }
 
   public static void demo() {
