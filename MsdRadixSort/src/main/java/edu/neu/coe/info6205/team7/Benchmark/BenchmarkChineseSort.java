@@ -7,21 +7,28 @@ import edu.neu.coe.huskySort.sort.simple.QuickSort_DualPivot;
 import edu.neu.coe.huskySort.sort.simple.TimSort;
 import edu.neu.coe.huskySort.util.SorterBenchmark;
 import edu.neu.coe.huskySort.util.TimeLogger;
-import edu.neu.coe.info6205.team7.MsdPinyinSyllabification;
+import edu.neu.coe.info6205.team7.RadixSort.LsdPinyinLetterSort;
+import edu.neu.coe.info6205.team7.RadixSort.LsdPinyinSyllabificationSort;
+import edu.neu.coe.info6205.team7.RadixSort.MsdPinyinLetterSort;
+import edu.neu.coe.info6205.team7.RadixSort.MsdPinyinSyllabificationSort;
 import edu.neu.coe.info6205.team7.NameByLetter.NameByLetter;
 import edu.neu.coe.info6205.team7.NameBySyllabification.NameBySyllabification;
 import edu.neu.coe.info6205.team7.PureHuskySortWithHelper;
+import edu.neu.coe.info6205.team7.RadixSort.RadixSort;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public class BenchmarkChineseSort {
 
   int nRuns = 5;
-  int[] datasetSize = {25000,50000,100000,200000,4000000};
+  int[] datasetSize = {100000};
   public final static TimeLogger[] timeLoggersLinearithmic = {
       new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
   };
@@ -30,6 +37,7 @@ public class BenchmarkChineseSort {
     BenchmarkChineseSort benchmark = new BenchmarkChineseSort();
     benchmark.runBenchmark();
   }
+
   private void runBenchmark(){
     // Read words from file
     List<String> toSort4M = readChineseArrayFromFile("/shuffledChinese.txt");
@@ -56,8 +64,8 @@ public class BenchmarkChineseSort {
     new SorterBenchmark<>(NameByLetter.class, null, new QuickSort_DualPivot<NameByLetter>(
         new HelperWIthTesting<>("QuickSort_DualPivot with NameByLetter", nWords)), nameByLetters,
         nRuns, timeLoggersLinearithmic).run(nWords);
-    new SorterBenchmark<NameBySyllabification>(NameBySyllabification.class, null,
-        new QuickSort_DualPivot(new HelperWIthTesting<>("QuickSort_DualPivot",
+    new SorterBenchmark<>(NameBySyllabification.class, null,
+        new QuickSort_DualPivot<NameBySyllabification>(new HelperWIthTesting<>("QuickSort_DualPivot",
             nWords)), nameBySyllabification, nRuns,
         timeLoggersLinearithmic).run(nWords);
 
@@ -69,10 +77,34 @@ public class BenchmarkChineseSort {
         new PureHuskySortWithHelper<>(nameCoderBySylla,
             new HelperWIthTesting<>("HuskySort with NameBySyllabification", nWords)),
         nameBySyllabification, nRuns, timeLoggersLinearithmic).run(nWords);
+
     // MSD Sort
-    new SorterBenchmark<String>(String.class, null, new MsdPinyinSyllabification(
-            new HelperWIthTesting<>("MSD sort with syllabification", nWords)), toSort, nRuns,
+    RadixSort msdS = new MsdPinyinLetterSort(
+            new HelperWIthTesting<>("MSD sort with letter", nWords));
+    final UnaryOperator<String[]> preF = t -> {
+      msdS.preProcess(t);
+      return t;
+    };
+
+    RadixSort msdS_2 = new MsdPinyinSyllabificationSort(
+            new HelperWIthTesting<>("MSD sort with syllabification", nWords));
+
+    new SorterBenchmark<>(String.class, preF, msdS, toSort, nRuns,
             timeLoggersLinearithmic).run(nWords);
+    new SorterBenchmark<>(String.class, preF, msdS_2, toSort, nRuns,
+            timeLoggersLinearithmic).run(nWords);
+
+    // LSD Sort
+    RadixSort lsdS = new LsdPinyinLetterSort(
+            new HelperWIthTesting<>("LSD sort with letter", nWords));
+    RadixSort lsdS_2 = new LsdPinyinSyllabificationSort(
+            new HelperWIthTesting<>("LSD sort with syllabification", nWords));
+
+    new SorterBenchmark<>(String.class, preF, lsdS, toSort, nRuns,
+            timeLoggersLinearithmic).run(nWords);
+    new SorterBenchmark<>(String.class, preF, lsdS_2, toSort, nRuns,
+            timeLoggersLinearithmic).run(nWords);
+
   }
 
   private List<NameByLetter> constructNameByLetter(List<String> src,int size) {
