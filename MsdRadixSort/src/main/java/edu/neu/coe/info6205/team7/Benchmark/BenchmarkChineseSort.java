@@ -22,13 +22,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class BenchmarkChineseSort {
 
   int nRuns = 5;
-  int[] datasetSize = {100000};
+  int[] datasetSize = {1000000};
   public final static TimeLogger[] timeLoggersLinearithmic = {
       new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
   };
@@ -40,9 +39,12 @@ public class BenchmarkChineseSort {
 
   private void runBenchmark(){
     // Read words from file
-    List<String> toSort4M = readChineseArrayFromFile("/shuffledChinese.txt");
-    toSort4M.addAll(toSort4M);
-    toSort4M.addAll(toSort4M);
+    List<String> data = readChineseArrayFromFile("/shuffledChinese.txt");
+    List<String> toSort4M = new ArrayList<>();
+    for (int i = 0; i < 4; i++) {
+      toSort4M.addAll(data);
+    }
+
     for (int size: datasetSize){
       sortChinese(toSort4M.subList(0,size).toArray(new String[0]),constructNameByLetter(toSort4M,size).toArray(new NameByLetter[0]),
               constructNameNameBySyllabification(toSort4M,size).toArray(new NameBySyllabification[0]));
@@ -79,32 +81,45 @@ public class BenchmarkChineseSort {
         nameBySyllabification, nRuns, timeLoggersLinearithmic).run(nWords);
 
     // MSD Sort
-    RadixSort msdS = new MsdPinyinLetterSort(
-            new HelperWIthTesting<>("MSD sort with letter", nWords));
-    final UnaryOperator<String[]> preF = t -> {
-      msdS.preProcess(t);
+    RadixSort MsdByLetter = new MsdPinyinLetterSort(
+            new HelperWIthTesting<>("MSD sort with Letter", nWords));
+    final UnaryOperator<String[]> MsdPre_1 = t -> {
+      MsdByLetter.preProcess(t);
       return t;
     };
+    new SorterBenchmark<>(String.class, MsdPre_1, MsdByLetter, toSort, nRuns,
+        timeLoggersLinearithmic).run(nWords);
 
-    RadixSort msdS_2 = new MsdPinyinSyllabificationSort(
-            new HelperWIthTesting<>("MSD sort with syllabification", nWords));
-
-    new SorterBenchmark<>(String.class, preF, msdS, toSort, nRuns,
-            timeLoggersLinearithmic).run(nWords);
-    new SorterBenchmark<>(String.class, preF, msdS_2, toSort, nRuns,
+    RadixSort MsdBySyllabification = new MsdPinyinSyllabificationSort(
+            new HelperWIthTesting<>("MSD sort with Syllabification", nWords));
+    final UnaryOperator<String[]> MsdPre_2 = t -> {
+      MsdBySyllabification.preProcess(t);
+      return t;
+    };
+    new SorterBenchmark<>(String.class, MsdPre_2, MsdBySyllabification, toSort, nRuns,
             timeLoggersLinearithmic).run(nWords);
 
     // LSD Sort
-    RadixSort lsdS = new LsdPinyinLetterSort(
-            new HelperWIthTesting<>("LSD sort with letter", nWords));
-    RadixSort lsdS_2 = new LsdPinyinSyllabificationSort(
-            new HelperWIthTesting<>("LSD sort with syllabification", nWords));
-
-    new SorterBenchmark<>(String.class, preF, lsdS, toSort, nRuns,
+    RadixSort LsdByLetter = new LsdPinyinLetterSort(
+            new HelperWIthTesting<>("LSD sort with Letter", nWords));
+    final UnaryOperator<String[]> LsdPre_1 = t -> {
+      LsdByLetter.preProcess(t);
+      return t;
+    };
+    new SorterBenchmark<>(String.class, LsdPre_1, LsdByLetter, toSort, nRuns,
             timeLoggersLinearithmic).run(nWords);
-    new SorterBenchmark<>(String.class, preF, lsdS_2, toSort, nRuns,
+
+
+    RadixSort LsdBySyllabification = new LsdPinyinSyllabificationSort(
+        new HelperWIthTesting<>("LSD sort with Syllabification", nWords));
+    final UnaryOperator<String[]> LsdPre_2 = t -> {
+      LsdBySyllabification.preProcess(t);
+      return t;
+    };
+    new SorterBenchmark<>(String.class, LsdPre_2, LsdBySyllabification, toSort, nRuns,
             timeLoggersLinearithmic).run(nWords);
 
+    //Benchmark Done
   }
 
   private List<NameByLetter> constructNameByLetter(List<String> src,int size) {
