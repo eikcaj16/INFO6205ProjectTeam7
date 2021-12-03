@@ -15,7 +15,7 @@ public class ChsCharToIdxArrByLetter extends AbstractChsCharToIdxArr {
             res[index] = mapIndex(index,pinyin);
             index++;
         }
-        res[index] = tone;
+        res[6] = tone;
         return res;
     }
     @Override
@@ -30,7 +30,7 @@ public class ChsCharToIdxArrByLetter extends AbstractChsCharToIdxArr {
                 res[index + i * 7] = mapIndex(index,pinyin);
                 index++;
             }
-            res[index + i * 7] = tone;
+            res[i * 7 + 6] = tone;
         }
         return res;
     }
