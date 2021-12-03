@@ -3,14 +3,19 @@ package edu.neu.coe.info6205.team7.RadixSort;
 import edu.neu.coe.huskySort.sort.Helper;
 import edu.neu.coe.info6205.team7.Benchmark.HelperWIthTesting;
 import edu.neu.coe.info6205.team7.NameByLetter.ChsCharToIdxArrByLetter;
-import edu.neu.coe.info6205.team7.NameBySyllabification.ChsCharToIdxArrBySylla;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LsdPinyinLetterSort extends PinyinSort {
+/**
+ * A class extends from PinyinLetterSort to implement LSD Radix Sort for Chinese characters in
+ * Pinyin natural order
+ *
+ * @author Yiqing Jackie Huang
+ */
+public final class LsdPinyinLetterSort extends PinyinLetterSort {
 
   public LsdPinyinLetterSort(Helper<String> helper) {
     super(helper);
@@ -19,11 +24,11 @@ public class LsdPinyinLetterSort extends PinyinSort {
 
   @Override
   /**
-   * Sort from xs[lo] to xs[hi] (exclusive) xs is an array of strings using MsdRadixSort.
+   * Sort from xs[lo] to xs[hi] (exclusive) xs is an array of strings using LsdRadixSort.
    *
    * ===IMPORTANT===
-   * Call MsdPinyinSort.preProcess before calling MsdPinyinSort.sort
-   * Call MsdPinyin.Sort.postProcess after sorting to get the result in a string array
+   * Call PinyinSort.preProcess before calling PinyinSort.sort
+   * Call PinyinSort.postProcess after sorting to get the result in a string array
    *
    * @param xs the array to be sorted
    * @param lo the low index
@@ -39,7 +44,7 @@ public class LsdPinyinLetterSort extends PinyinSort {
   void sort(int lo, int hi, int maxLen, int cirIdx) {
     int period = radix.length;
     int step;
-    for (int i = maxLen - 1; i >= 0; i -= step) {
+    for (int i = maxLen - 5; i >= 0; i -= step) {
       int[] count = new int[radix[period - 1 - cirIdx] + 2];
 
       for (int j = lo; j < hi; j++) {
@@ -142,7 +147,7 @@ public class LsdPinyinLetterSort extends PinyinSort {
         case 4:
           return (int) bArr[loc + 3] >> 4;
         case 5:
-          return bArr[loc + 3] & 0b100;
+          return bArr[loc + 3] >> 3 & 0x1;
         case 6:
           return (int) bArr[loc + 3] & 0x7;
       }
@@ -151,46 +156,11 @@ public class LsdPinyinLetterSort extends PinyinSort {
   }
 
   public static void main(String[] args) {
-//    String[] sa = {"老伙计", "救济", "做作", "经济", "坐下", "啊"};
-//    RadixSort lrs = new LsdPinyinSyllabificationSort(new HelperWIthTesting<>("MSD Radix Sort"));
-//    lrs.preProcess(sa);
-//    lrs.sort(sa, 0, sa.length);
-//    lrs.postProcess(sa);
-//    Arrays.stream(sa).forEach(System.out::println);
-
-    List<String> names_txt = new ArrayList<>();
-    try {
-      FileReader fr = new FileReader("shuffledChinese1.txt");
-      BufferedReader br = new BufferedReader(fr);
-      System.out.println("\n======== Create file reader success! ========");
-
-      while (br.ready()) {
-        String a = br.readLine();
-        if (a.contains("吕")) {
-          continue;
-        }
-        names_txt.add(a);
-      }
-
-      System.out.println("======== Data have been read! ========");
-
-      br.close();
-      fr.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    String[] ssa = new String[names_txt.size()];
-
-    System.out.println(ssa.length);
-    for (int i = 0; i < ssa.length; i++) {
-      ssa[i] = names_txt.get(i);
-    }
-
-    RadixSort mrs = new LsdPinyinSyllabificationSort(new HelperWIthTesting<>("MSD Radix Sort"));
-    mrs.preProcess(ssa);
-    mrs.sort(ssa, 0, ssa.length);
-    mrs.postProcess(ssa);
-    Arrays.stream(ssa).forEach(System.out::println);
+    String[] sa = {"老伙计", "救济", "做作", "经济", "坐下", "啊"};
+    RadixSort lrs = new LsdPinyinSyllabificationSort(new HelperWIthTesting<>("MSD Radix Sort"));
+    lrs.preProcess(sa);
+    lrs.sort(sa, 0, sa.length);
+    lrs.postProcess(sa);
+    Arrays.stream(sa).forEach(System.out::println);
   }
 }

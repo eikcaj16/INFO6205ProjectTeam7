@@ -21,8 +21,8 @@ abstract class PinyinSort extends RadixSort {
    * Sort from xs[lo] to xs[hi] (exclusive) xs is an array of strings using MsdRadixSort.
    *
    * ===IMPORTANT===
-   * Call MsdPinyinSort.preProcess before calling MsdPinyinSort.sort
-   * Call MsdPinyin.Sort.postProcess after sorting to get the result in a string array
+   * Call PinyinSort.preProcess before calling PinyinSort.sort
+   * Call PinyinSort.postProcess after sorting to get the result in a string array
    *
    * @param xs the array to be sorted
    * @param lo the low index
@@ -58,9 +58,6 @@ abstract class PinyinSort extends RadixSort {
     if (hi <= lo) {
     } else {
       int[] count = new int[radix[cirIdx] + 2];
-//      if (d % 8 == 0) {
-//        d++;
-//      }
       for (int i = lo; i < hi; i++) {
         count[charAt(compArr[i], d, cirIdx) + 2]++;
       }
