@@ -7,6 +7,7 @@ import edu.neu.coe.huskySort.sort.simple.QuickSort_DualPivot;
 import edu.neu.coe.huskySort.sort.simple.TimSort;
 import edu.neu.coe.huskySort.util.SorterBenchmark;
 import edu.neu.coe.huskySort.util.TimeLogger;
+import edu.neu.coe.info6205.team7.MsdPinyinSyllabification;
 import edu.neu.coe.info6205.team7.NameByLetter.NameByLetter;
 import edu.neu.coe.info6205.team7.NameBySyllabification.NameBySyllabification;
 import edu.neu.coe.info6205.team7.PureHuskySortWithHelper;
@@ -20,7 +21,7 @@ import java.util.List;
 public class BenchmarkChineseSort {
 
   int nRuns = 5;
-  int[] datasetSize = {250000,500000,1000000,2000000,4000000};
+  int[] datasetSize = {25000,50000,100000,200000,4000000};
   public final static TimeLogger[] timeLoggersLinearithmic = {
       new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
   };
@@ -68,6 +69,10 @@ public class BenchmarkChineseSort {
         new PureHuskySortWithHelper<>(nameCoderBySylla,
             new HelperWIthTesting<>("HuskySort with NameBySyllabification", nWords)),
         nameBySyllabification, nRuns, timeLoggersLinearithmic).run(nWords);
+    // MSD Sort
+    new SorterBenchmark<String>(String.class, null, new MsdPinyinSyllabification(
+            new HelperWIthTesting<>("MSD sort with syllabification", nWords)), toSort, nRuns,
+            timeLoggersLinearithmic).run(nWords);
   }
 
   private List<NameByLetter> constructNameByLetter(List<String> src,int size) {
