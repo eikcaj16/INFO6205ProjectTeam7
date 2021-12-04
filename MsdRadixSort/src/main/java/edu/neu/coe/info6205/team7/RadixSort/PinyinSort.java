@@ -5,8 +5,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 /**
- * Radix Sort for Chinese characters The class extends RadixSort and encapsulates some APIs
- * for Chinese sort algorithm
+ * Radix Sort for Chinese characters The class extends RadixSort and encapsulates some APIs for
+ * Chinese sort algorithm
  *
  * @author Yiqing Jackie Huang
  */

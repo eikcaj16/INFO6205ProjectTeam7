@@ -6,7 +6,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class NameByLetterTest {
-//    @Test
+
+  //    @Test
 //    public void testPinyin1(){
 //        NameByLetter name1 = new NameByLetter("祝福你");
 //        assertEquals(name1.getPinyin().get(0),"zhu");
@@ -56,34 +57,35 @@ public class NameByLetterTest {
 //        assertEquals(name4.getTone().get(0),(Integer) 0);
 //
 //    }
-    @Test
-    public void testCompare1(){
-        NameByLetter name1 = new NameByLetter("吕布");
-        NameByLetter name2 = new NameByLetter("卢布");
+  @Test
+  public void testCompare1() {
+    NameByLetter name1 = new NameByLetter("吕布");
+    NameByLetter name2 = new NameByLetter("卢布");
 
-        assertEquals(name1.compareTo(name2),1);
+    assertEquals(name1.compareTo(name2), 1);
 
-        NameByLetter name3 = new NameByLetter("冗余");
-        NameByLetter name4 = new NameByLetter("冗鱼");
-        assertEquals(name3.compareTo(name4),0);
+    NameByLetter name3 = new NameByLetter("冗余");
+    NameByLetter name4 = new NameByLetter("冗鱼");
+    assertEquals(name3.compareTo(name4), 0);
 
-        NameByLetter name5 = new NameByLetter("章鱼");
-        NameByLetter name6 = new NameByLetter("占于");
-        assertEquals(name5.compareTo(name6),1);
-    }
-    @Test
-    public void testCompare2(){
-        NameByLetter name1 = new NameByLetter("陈思");
-        NameByLetter name2 = new NameByLetter("陈思思");
+    NameByLetter name5 = new NameByLetter("章鱼");
+    NameByLetter name6 = new NameByLetter("占于");
+    assertEquals(name5.compareTo(name6), 1);
+  }
 
-        assertEquals(name1.compareTo(name2),-1);
+  @Test
+  public void testCompare2() {
+    NameByLetter name1 = new NameByLetter("陈思");
+    NameByLetter name2 = new NameByLetter("陈思思");
 
-        NameByLetter name3 = new NameByLetter("然后");
-        NameByLetter name4 = new NameByLetter("让后");
-        assertEquals(name3.compareTo(name4),-1);
+    assertEquals(name1.compareTo(name2), -1);
 
-        NameByLetter name5 = new NameByLetter("啊");
-        NameByLetter name6 = new NameByLetter("阿");
-        assertEquals(name5.compareTo(name6),1);
-    }
+    NameByLetter name3 = new NameByLetter("然后");
+    NameByLetter name4 = new NameByLetter("让后");
+    assertEquals(name3.compareTo(name4), -1);
+
+    NameByLetter name5 = new NameByLetter("啊");
+    NameByLetter name6 = new NameByLetter("阿");
+    assertEquals(name5.compareTo(name6), 1);
+  }
 }

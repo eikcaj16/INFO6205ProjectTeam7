@@ -1,4 +1,5 @@
 package edu.neu.coe.info6205.team7;
+
 import edu.neu.coe.huskySort.sort.huskySort.PureHuskySort;
 import edu.neu.coe.huskySort.sort.huskySortUtils.BaseHuskySequenceCoder;
 import edu.neu.coe.huskySort.sort.huskySortUtils.HuskyCoderFactory;
@@ -30,9 +31,9 @@ public class HuskySortDriver {
         }
       };
 
-  public static void testSylla(List<String> names_txt){
+  public static void testSylla(List<String> names_txt) {
     NameBySyllabification[] names = new NameBySyllabification[names_txt.size()];
-    for(int i = 0; i < names_txt.size(); i++){
+    for (int i = 0; i < names_txt.size(); i++) {
       names[i] = new NameBySyllabification(names_txt.get(i));
     }
 
@@ -64,9 +65,9 @@ public class HuskySortDriver {
     System.out.println("Husky sort: " + husky_count / 1e6 / sort_times + "ms");
   }
 
-  public static void testLetter(List<String> names_txt){
+  public static void testLetter(List<String> names_txt) {
     NameByLetter[] names = new NameByLetter[names_txt.size()];
-    for(int i = 0; i < names_txt.size(); i++){
+    for (int i = 0; i < names_txt.size(); i++) {
       names[i] = new NameByLetter(names_txt.get(i));
     }
 
@@ -100,12 +101,12 @@ public class HuskySortDriver {
 
   public static void demo() {
     List<String> names_txt = new ArrayList<>();
-    try{
+    try {
       FileReader fr = new FileReader("./sortedChinese.txt");
       BufferedReader br = new BufferedReader(fr);
       System.out.println("\n======== Create file reader success! ========");
 
-      while(br.ready()){
+      while (br.ready()) {
         names_txt.add(br.readLine());
       }
 
@@ -113,7 +114,7 @@ public class HuskySortDriver {
 
       br.close();
       fr.close();
-    } catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
 

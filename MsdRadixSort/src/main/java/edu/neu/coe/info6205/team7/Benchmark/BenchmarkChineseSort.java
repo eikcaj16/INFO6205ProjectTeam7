@@ -27,7 +27,7 @@ import java.util.function.UnaryOperator;
 public class BenchmarkChineseSort {
 
   int nRuns = 500;
-  int[] datasetSize = {250000,500000,1000000,2000000,4000000};
+  int[] datasetSize = {250000, 500000, 1000000, 2000000, 4000000};
   public final static TimeLogger[] timeLoggersLinearithmic = {
       new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
   };
@@ -37,7 +37,7 @@ public class BenchmarkChineseSort {
     benchmark.runBenchmark();
   }
 
-  private void runBenchmark(){
+  private void runBenchmark() {
     // Read words from file
     List<String> data = readChineseArrayFromFile("/shuffledChinese.txt");
     List<String> toSort4M = new ArrayList<>();
@@ -45,13 +45,15 @@ public class BenchmarkChineseSort {
       toSort4M.addAll(data);
     }
 
-    for (int size: datasetSize){
-      sortChinese(toSort4M.subList(0,size).toArray(new String[0]),constructNameByLetter(toSort4M,size).toArray(new NameByLetter[0]),
-              constructNameNameBySyllabification(toSort4M,size).toArray(new NameBySyllabification[0]));
+    for (int size : datasetSize) {
+      sortChinese(toSort4M.subList(0, size).toArray(new String[0]),
+          constructNameByLetter(toSort4M, size).toArray(new NameByLetter[0]),
+          constructNameNameBySyllabification(toSort4M, size).toArray(new NameBySyllabification[0]));
     }
   }
 
-  private void sortChinese(String[] toSort, NameByLetter[] nameByLetters, NameBySyllabification[] nameBySyllabification) {
+  private void sortChinese(String[] toSort, NameByLetter[] nameByLetters,
+      NameBySyllabification[] nameBySyllabification) {
 
     int nWords = toSort.length;
 
@@ -75,7 +77,7 @@ public class BenchmarkChineseSort {
 
     // MSD Sort
     RadixSort MsdByLetter = new MsdPinyinLetterSort(
-            new HelperWIthTesting<>("MSD sort with Letter", nWords));
+        new HelperWIthTesting<>("MSD sort with Letter", nWords));
     final UnaryOperator<String[]> MsdPre_1 = t -> {
       MsdByLetter.preProcess(t);
       return t;
@@ -85,13 +87,13 @@ public class BenchmarkChineseSort {
 
     // LSD Sort
     RadixSort LsdByLetter = new LsdPinyinLetterSort(
-            new HelperWIthTesting<>("LSD sort with Letter", nWords));
+        new HelperWIthTesting<>("LSD sort with Letter", nWords));
     final UnaryOperator<String[]> LsdPre_1 = t -> {
       LsdByLetter.preProcess(t);
       return t;
     };
     new SorterBenchmark<>(String.class, LsdPre_1, LsdByLetter, toSort, nRuns,
-            timeLoggersLinearithmic).run(nWords);
+        timeLoggersLinearithmic).run(nWords);
 
     // With Syllabification
     System.out.println("------------------------Sort with Syllabification-----------------");
@@ -101,8 +103,9 @@ public class BenchmarkChineseSort {
         nameBySyllabification, nRuns, timeLoggersLinearithmic).run(nWords);
     // Dual Pivot Quicksort
     new SorterBenchmark<>(NameBySyllabification.class, null,
-        new QuickSort_DualPivot<NameBySyllabification>(new HelperWIthTesting<>("QuickSort_DualPivot",
-            nWords)), nameBySyllabification, nRuns,
+        new QuickSort_DualPivot<NameBySyllabification>(
+            new HelperWIthTesting<>("QuickSort_DualPivot",
+                nWords)), nameBySyllabification, nRuns,
         timeLoggersLinearithmic).run(nWords);
     // Husky sort
     new SorterBenchmark<>(NameBySyllabification.class, null,
@@ -131,17 +134,18 @@ public class BenchmarkChineseSort {
     //Benchmark Done
   }
 
-  private List<NameByLetter> constructNameByLetter(List<String> src,int size) {
+  private List<NameByLetter> constructNameByLetter(List<String> src, int size) {
     List<NameByLetter> res = new ArrayList<>();
-    for (int i = 0;i < size;i++) {
+    for (int i = 0; i < size; i++) {
       res.add(new NameByLetter(src.get(i)));
     }
     return res;
   }
 
-  private List<NameBySyllabification> constructNameNameBySyllabification(List<String> src,int size) {
+  private List<NameBySyllabification> constructNameNameBySyllabification(List<String> src,
+      int size) {
     List<NameBySyllabification> res = new ArrayList<>();
-    for (int i = 0;i < size;i++) {
+    for (int i = 0; i < size; i++) {
       res.add(new NameBySyllabification(src.get(i)));
     }
     return res;

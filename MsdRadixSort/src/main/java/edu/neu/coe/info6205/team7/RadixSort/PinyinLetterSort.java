@@ -3,8 +3,8 @@ package edu.neu.coe.info6205.team7.RadixSort;
 import edu.neu.coe.huskySort.sort.Helper;
 
 /**
- * Radix Sort for Pinyin characters in natural order
- * The class extends PinyinSort and implements some APIs for Chinese sort algorithm
+ * Radix Sort for Pinyin characters in natural order The class extends PinyinSort and implements
+ * some APIs for Chinese sort algorithm
  *
  * @author Yiqing Jackie Huang
  */

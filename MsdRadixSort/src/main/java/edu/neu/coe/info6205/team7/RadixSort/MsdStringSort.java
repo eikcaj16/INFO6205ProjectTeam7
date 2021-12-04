@@ -5,8 +5,8 @@ import edu.neu.coe.info6205.team7.Benchmark.HelperWIthTesting;
 import java.util.Arrays;
 
 /**
- * MSD Radix Sort for latin characters
- * Adapted from <a href="INFO6205 repository">https://github.com/rchillyard/INFO6205</a>
+ * MSD Radix Sort for latin characters Adapted from <a href="INFO6205
+ * repository">https://github.com/rchillyard/INFO6205</a>
  *
  * @author Prof. Robin Hillyard
  */

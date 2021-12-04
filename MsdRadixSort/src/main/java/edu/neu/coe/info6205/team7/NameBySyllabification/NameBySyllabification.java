@@ -10,7 +10,7 @@ public class NameBySyllabification implements
   private final String Name;
   private final int[] IndexArr;
 
-  public NameBySyllabification(String name){
+  public NameBySyllabification(String name) {
     Name = name;
     ChsCharToIdxArrBySylla processor = new ChsCharToIdxArrBySylla();
     IndexArr = processor.CharAt(Name);
@@ -44,12 +44,12 @@ public class NameBySyllabification implements
   public int compareTo(NameBySyllabification o) {
     int compare_length = Math.min(Name.length(), o.Name.length());
 
-    for(int i = 0; i < compare_length; i++){
+    for (int i = 0; i < compare_length; i++) {
       for (int j = 0; j < 4; j++) {
         int value_1 = IndexArr[i * 4 + j];
         int value_2 = o.IndexArr[i * 4 + j];
 
-        if(value_1 != value_2){
+        if (value_1 != value_2) {
           return Integer.compare(value_1, value_2);
         }
       }
@@ -58,7 +58,7 @@ public class NameBySyllabification implements
     return Integer.compare(this.Name.length(), o.getName().length());
   }
 
-  public static void demo(){
+  public static void demo() {
     List<String> names = new ArrayList<>();
     names.add("李白");
     names.add("李白白");
@@ -79,7 +79,7 @@ public class NameBySyllabification implements
 
     // Using each Chinese name to construct a name processor by Syllabification
     List<NameBySyllabification> namesProcessor = new ArrayList<>();
-    for(String s: names){
+    for (String s : names) {
       NameBySyllabification name = new NameBySyllabification(s);
       namesProcessor.add(name);
     }

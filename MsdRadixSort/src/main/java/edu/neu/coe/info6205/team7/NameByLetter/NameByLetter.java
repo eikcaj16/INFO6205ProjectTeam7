@@ -15,7 +15,7 @@ public class NameByLetter implements
     Comparable<NameByLetter>, CharSequence {
 
   private final String name;
-//  private final List<String> pinyin;
+  //  private final List<String> pinyin;
 //  private final List<Integer> tone;
   HanyuPinyinOutputFormat pinyinOutputFormat = new HanyuPinyinOutputFormat();
 
@@ -30,7 +30,7 @@ public class NameByLetter implements
     pinyin_length = IndexArr.length / 7;
   }
 
-  public String getName(){
+  public String getName() {
     return name;
   }
 
@@ -59,11 +59,11 @@ public class NameByLetter implements
     int length = Math.min(name.length(), o.name.length());
 
     for (int i = 0; i < length; i++) {
-      for(int j = 0; j < 7; j++) {
+      for (int j = 0; j < 7; j++) {
         int value_1 = IndexArr[i * 7 + j];
         int value_2 = o.IndexArr[i * 7 + j];
 
-        if(value_1 != value_2){
+        if (value_1 != value_2) {
           return Integer.compare(value_1, value_2);
         }
       }

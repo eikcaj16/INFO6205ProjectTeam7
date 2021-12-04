@@ -5,52 +5,51 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ChsCharToIdxArrBySylla extends AbstractChsCharToIdxArr {
+
   /**
-   *
    * @param pinyin A string represents pinyin a single Chinese character
    * @return A list of string, which is split result of the pinyin
    */
-  public static List<String> SpiltBySyllabification(String pinyin){
+  public static List<String> SpiltBySyllabification(String pinyin) {
     List<String> slice = new LinkedList<>();
 
     int length = pinyin.length();
     String tone = Character.toString(pinyin.charAt(length - 1));
     pinyin = pinyin.substring(0, length - 1);
 
-    for(int i = 0; i < pinyin.length(); ){
+    for (int i = 0; i < pinyin.length(); ) {
       int old_i = i;
-      for(int step = 3; step >= 1; step--){
+      for (int step = 3; step >= 1; step--) {
         //Go through pinyin with different step, try to find Chinese pinyin combo
 
-        if(i + step > pinyin.length()){
+        if (i + step > pinyin.length()) {
           continue;
         }
 
         String sub = pinyin.substring(i, i + step);
 
-        if(i < 1 && LetterMap.FirstIndex.containsKey(sub)) {
+        if (i < 1 && LetterMap.FirstIndex.containsKey(sub)) {
           slice.add(sub);
           i += step;
           break;
-        }
-        else if(LetterMap.NextIndex.containsKey(sub)) {
+        } else if (LetterMap.NextIndex.containsKey(sub)) {
           slice.add(sub);
           i += step;
           break;
         }
       }
-      if(i == old_i){
+      if (i == old_i) {
         System.out.println("Matching pinyin Error! Can't match: " + pinyin);
         System.exit(-1);
       }
     }
 
-    if(slice.size() == 0){
+    if (slice.size() == 0) {
       System.out.println("Matching pinyin Error! Can't match: " + pinyin);
       System.exit(-1);
     }
 
-    while (slice.size() < 3){
+    while (slice.size() < 3) {
       slice.add("");
     }
 
@@ -59,14 +58,13 @@ public class ChsCharToIdxArrBySylla extends AbstractChsCharToIdxArr {
   }
 
   /**
-   *
    * @param c A single Chinese character
    * @return An index array of each syllabification, which size is 4
    */
   @Override
-  public int[] CharAt(char c){
+  public int[] CharAt(char c) {
     String pinyin = TransferChineseToPinyin(c);
-    if(pinyin == null){
+    if (pinyin == null) {
       System.exit(-1);
     }
 
@@ -82,13 +80,13 @@ public class ChsCharToIdxArrBySylla extends AbstractChsCharToIdxArr {
   }
 
   @Override
-  public int[] CharAt(String s){
+  public int[] CharAt(String s) {
     int len = s.length();
     int[] index_arr = new int[len * 4];
 
-    for(int i = 0; i < len; i++){
+    for (int i = 0; i < len; i++) {
       String pinyin = TransferChineseToPinyin(s.charAt(i));
-      if(pinyin == null){
+      if (pinyin == null) {
         System.exit(-1);
       }
 

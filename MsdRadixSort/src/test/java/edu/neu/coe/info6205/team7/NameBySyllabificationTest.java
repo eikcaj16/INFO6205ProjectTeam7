@@ -7,8 +7,9 @@ import java.util.Arrays;
 import org.junit.Test;
 
 public class NameBySyllabificationTest {
+
   @Test
-  public void testCompare1(){
+  public void testCompare1() {
     NameBySyllabification name1 = new NameBySyllabification("李白");
     NameBySyllabification name2 = new NameBySyllabification("李太白");
     NameBySyllabification name3 = new NameBySyllabification("杜甫");
@@ -19,7 +20,7 @@ public class NameBySyllabificationTest {
   }
 
   @Test
-  public void testCompare2(){
+  public void testCompare2() {
     NameBySyllabification name1 = new NameBySyllabification("白虎兵");
     NameBySyllabification name2 = new NameBySyllabification("白华林");
     NameBySyllabification name3 = new NameBySyllabification("窦子昂");
