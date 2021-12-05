@@ -26,8 +26,8 @@ import java.util.function.UnaryOperator;
 
 public class BenchmarkChineseSort {
 
-  int nRuns = 500;
-  int[] datasetSize = {250000, 500000, 1000000, 2000000, 4000000};
+  int nRuns = 100;
+  int[] datasetSize = {62500,125000,250000,500000,1000000,2000000,4000000};
   public final static TimeLogger[] timeLoggersLinearithmic = {
       new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
   };

@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.team7.NameBySyllabification;
 
+import edu.neu.coe.info6205.team7.NameByLetter.ChsCharToIdxArrByLetter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +9,14 @@ public class NameBySyllabification implements
     Comparable<NameBySyllabification>, CharSequence {
 
   private final String Name;
-  private final int[] IndexArr;
+  private int[] IndexArr;
 
   public NameBySyllabification(String name) {
     Name = name;
+    /*
     ChsCharToIdxArrBySylla processor = new ChsCharToIdxArrBySylla();
     IndexArr = processor.CharAt(Name);
+     */
   }
 
   public String getName() {
@@ -42,6 +45,14 @@ public class NameBySyllabification implements
 
   @Override
   public int compareTo(NameBySyllabification o) {
+    if (IndexArr == null){
+      ChsCharToIdxArrBySylla processor = new ChsCharToIdxArrBySylla();
+      IndexArr = processor.CharAt(Name);
+    }
+    if (o.IndexArr == null){
+      ChsCharToIdxArrByLetter processor = new ChsCharToIdxArrByLetter();
+      o.IndexArr = processor.CharAt(o.Name);
+    }
     int compare_length = Math.min(Name.length(), o.Name.length());
 
     for (int i = 0; i < compare_length; i++) {

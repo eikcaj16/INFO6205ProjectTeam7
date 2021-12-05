@@ -2,6 +2,8 @@ package edu.neu.coe.info6205.team7.Benchmark;
 
 import edu.neu.coe.huskySort.sort.Helper;
 import edu.neu.coe.huskySort.util.Utilities;
+import edu.neu.coe.info6205.team7.NameByLetter.NameByLetter;
+import edu.neu.coe.info6205.team7.NameBySyllabification.NameBySyllabification;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -128,6 +130,9 @@ public class HelperWIthTesting<X extends Comparable<X>> implements Helper<X> {
     }
     return Utilities.fillRandomArray(clazz, random, n, f);
   }
+  @Override
+  public X[] preProcess(X[] xs) {
+  }
 
   /**
    * Method to post-process the array xs after sorting. By default, this method does nothing.
@@ -136,11 +141,23 @@ public class HelperWIthTesting<X extends Comparable<X>> implements Helper<X> {
    */
   @Override
   public void postProcess(X[] xs) {
+    String[] res = new String[xs.length];
+    if (xs[0] instanceof NameByLetter){
+      for (int i = 0;i < xs.length;i++){
+        res[i] = ((NameByLetter) xs[i]).getName();
+      }
+    } else if (xs[0] instanceof NameBySyllabification){
+      for (int i = 0;i < xs.length;i++){
+        res[i] = ((NameBySyllabification) xs[i]).getName();
+      }
+    }
+    /*
     for (int i = 0; i < xs.length - 1; i++) {
       if (xs[i].compareTo(xs[i + 1]) > 0) {
         throw new HelperWIthTesting.HelperException("Wrong Array");
       }
     }
+    */
   }
 
   @Override
