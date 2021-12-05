@@ -1,6 +1,7 @@
 package edu.neu.coe.info6205.team7.NameByLetter;
 
 import edu.neu.coe.info6205.team7.NameBySyllabification.ChsCharToIdxArrBySylla;
+import edu.neu.coe.info6205.team7.NameBySyllabification.NameBySyllabification;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,15 +20,23 @@ public class NameByLetter implements
 //  private final List<Integer> tone;
   HanyuPinyinOutputFormat pinyinOutputFormat = new HanyuPinyinOutputFormat();
 
-  private final int[] IndexArr;
-  private final int pinyin_length;
+  private int[] IndexArr;
+  private boolean isInit = false;
 
   public NameByLetter(String name) {
     this.name = name;
 
     ChsCharToIdxArrByLetter processor = new ChsCharToIdxArrByLetter();
     IndexArr = processor.CharAt(name);
-    pinyin_length = IndexArr.length / 7;
+  }
+
+  public NameBySyllabification[] preProcess(){
+    if(!isInit) {
+      ChsCharToIdxArrByLetter processor = new ChsCharToIdxArrByLetter();
+      IndexArr = processor.CharAt(name);
+      isInit = true;
+    }
+    return null;
   }
 
   public String getName() {

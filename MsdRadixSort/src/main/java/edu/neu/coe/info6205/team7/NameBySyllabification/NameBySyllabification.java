@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.team7.NameBySyllabification;
 
+import edu.neu.coe.info6205.team7.PureHuskySortWithHelper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +9,22 @@ public class NameBySyllabification implements
     Comparable<NameBySyllabification>, CharSequence {
 
   private final String Name;
-  private final int[] IndexArr;
+  private int[] IndexArr;
+  private boolean isInit = false;
 
   public NameBySyllabification(String name) {
     Name = name;
     ChsCharToIdxArrBySylla processor = new ChsCharToIdxArrBySylla();
     IndexArr = processor.CharAt(Name);
+  }
+
+  public NameBySyllabification[] preProcess(){
+    if(!isInit) {
+      ChsCharToIdxArrBySylla processor = new ChsCharToIdxArrBySylla();
+      IndexArr = processor.CharAt(Name);
+      isInit = true;
+    }
+    return null;
   }
 
   public String getName() {
