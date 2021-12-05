@@ -3,11 +3,7 @@ package edu.neu.coe.info6205.team7.RadixSort;
 import edu.neu.coe.huskySort.sort.Helper;
 import edu.neu.coe.info6205.team7.Benchmark.HelperWIthTesting;
 import edu.neu.coe.info6205.team7.NameBySyllabification.ChsCharToIdxArrBySylla;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * A class extends from PinyinSyllabificationSort to implement MSD Radix Sort for Chinese characters
@@ -20,6 +16,7 @@ public final class MsdPinyinSyllabificationSort extends PinyinSyllabificationSor
   public MsdPinyinSyllabificationSort(Helper<String> helper) {
     super(helper);
     radix = new int[]{36, 24, 24, 5};
+    cutoff = 6;
   }
 
   @Override

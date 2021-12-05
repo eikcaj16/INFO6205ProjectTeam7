@@ -1,6 +1,7 @@
 package edu.neu.coe.info6205.team7.RadixSort;
 
 import edu.neu.coe.huskySort.sort.Helper;
+import edu.neu.coe.info6205.team7.InsertionSort.InsertionSortPinyin;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
@@ -55,7 +56,8 @@ abstract class PinyinSort extends RadixSort {
   }
 
   void sort(int lo, int hi, int d, int cirIdx) {
-    if (hi <= lo) {
+    if (hi <= lo + cutoff) {
+      InsertionSortPinyin.sort(compArr, lo, hi, d);
     } else {
       int[] count = new int[radix[cirIdx] + 2];
       for (int i = lo; i < hi; i++) {
@@ -139,4 +141,5 @@ abstract class PinyinSort extends RadixSort {
   static int[] radix;
   static byte[][] compArr;
   static byte[][] aux;
+  static int cutoff = 5;
 }

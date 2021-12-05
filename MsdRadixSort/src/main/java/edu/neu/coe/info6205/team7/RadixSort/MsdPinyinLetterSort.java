@@ -3,11 +3,7 @@ package edu.neu.coe.info6205.team7.RadixSort;
 import edu.neu.coe.huskySort.sort.Helper;
 import edu.neu.coe.info6205.team7.Benchmark.HelperWIthTesting;
 import edu.neu.coe.info6205.team7.NameByLetter.ChsCharToIdxArrByLetter;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * A class extends from PinyinLetterSort to implement MSD Radix Sort for Chinese characters in
@@ -20,6 +16,7 @@ public final class MsdPinyinLetterSort extends PinyinLetterSort {
   public MsdPinyinLetterSort(Helper<String> helper) {
     super(helper);
     radix = new int[]{24, 10, 8, 8, 6, 2, 5};
+    cutoff = 5;
   }
 
   @Override
