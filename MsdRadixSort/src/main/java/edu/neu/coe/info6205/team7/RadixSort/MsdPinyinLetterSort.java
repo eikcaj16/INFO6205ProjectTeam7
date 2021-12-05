@@ -16,13 +16,12 @@ public final class MsdPinyinLetterSort extends PinyinLetterSort {
   public MsdPinyinLetterSort(Helper<String> helper) {
     super(helper);
     radix = new int[]{24, 10, 8, 8, 6, 2, 5};
-    cutoff = 5;
   }
 
-  public MsdPinyinLetterSort(Helper<String> helper, int c) {
+  public MsdPinyinLetterSort(Helper<String> helper, int maxWordLength) {
     super(helper);
     radix = new int[]{24, 10, 8, 8, 6, 2, 5};
-    cutoff = c;
+    maxWordLen = maxWordLength;
   }
 
   @Override

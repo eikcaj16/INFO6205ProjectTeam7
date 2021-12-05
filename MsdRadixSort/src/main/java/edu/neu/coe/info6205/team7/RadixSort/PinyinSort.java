@@ -43,7 +43,7 @@ abstract class PinyinSort extends RadixSort {
     // from being released. Those arrays may be redundant for most of the input, but insufficient
     // for those long words.
     for (int i = 0; i < compArr.length; i++) {
-      compArr[i] = new byte[32];
+      compArr[i] = new byte[maxWordLen * 8];
     }
     convertStrArrToByteArr(xs);
     return null;
@@ -57,7 +57,7 @@ abstract class PinyinSort extends RadixSort {
 
   void sort(int lo, int hi, int d, int cirIdx) {
     if (hi <= lo) {
-    } else if (hi < lo + cutoff) {
+    } else if (hi < lo + cutoff && hi > lo + 1) {
       InsertionSortPinyin.sort(compArr, lo, hi, d);
     } else {
       int[] count = new int[radix[cirIdx] + 2];
@@ -142,5 +142,6 @@ abstract class PinyinSort extends RadixSort {
   static int[] radix;
   static byte[][] compArr;
   static byte[][] aux;
-  static int cutoff = 5;
+  static int cutoff = 0;
+  static int maxWordLen = 4;
 }
