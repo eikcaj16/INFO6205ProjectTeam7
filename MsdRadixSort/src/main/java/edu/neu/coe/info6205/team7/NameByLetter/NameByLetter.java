@@ -15,19 +15,13 @@ public class NameByLetter implements
     Comparable<NameByLetter>, CharSequence {
 
   private final String name;
-  //  private final List<String> pinyin;
-//  private final List<Integer> tone;
-  HanyuPinyinOutputFormat pinyinOutputFormat = new HanyuPinyinOutputFormat();
-
   private final int[] IndexArr;
-  private final int pinyin_length;
 
   public NameByLetter(String name) {
     this.name = name;
 
     ChsCharToIdxArrByLetter processor = new ChsCharToIdxArrByLetter();
     IndexArr = processor.CharAt(name);
-    pinyin_length = IndexArr.length / 7;
   }
 
   public String getName() {
@@ -69,43 +63,6 @@ public class NameByLetter implements
       }
     }
     return Integer.compare(name.length(), o.name.length());
-  }
-
-  public static void demo() {
-    List<String> names = new ArrayList<>();
-    names.add("李白");
-    names.add("李白白");
-
-    names.add("杜甫");
-    names.add("杜芙");
-
-    names.add("白居易");
-    names.add("白居一");
-    names.add("白居亦");
-    names.add("白居疑");
-
-    names.add("苏东坡");
-    names.add("苏东");
-
-    names.add("欧阳秀");
-    names.add("欧阳修");
-    names.add("女布");
-    names.add("吕布");
-    names.add("鲁豫");
-
-    names.add("张床户");
-    names.add("章床户");
-    names.add("张窗活");
-
-    names.add("爱林一");
-    names.add("艾零");
-    List<NameByLetter> namesProcessor = new ArrayList<>();
-    for (String s : names) {
-      namesProcessor.add(new NameByLetter(s));
-    }
-    namesProcessor.stream()
-        .sorted()
-        .forEach(o -> System.out.println(o.name));
   }
 
 }

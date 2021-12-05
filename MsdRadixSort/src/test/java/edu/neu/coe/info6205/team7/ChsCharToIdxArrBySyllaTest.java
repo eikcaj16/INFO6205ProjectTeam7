@@ -1,6 +1,7 @@
 package edu.neu.coe.info6205.team7;
 
 import edu.neu.coe.info6205.team7.NameBySyllabification.ChsCharToIdxArrBySylla;
+import edu.neu.coe.info6205.team7.NameBySyllabification.LetterMap;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
@@ -107,20 +108,40 @@ public class ChsCharToIdxArrBySyllaTest {
     int[] index13 = processor.CharAt(name1.charAt(2));
 
     assertEquals(Arrays.stream(index11).boxed().collect(Collectors.toList()),
-        Arrays.asList(34, 19, 0, 4));
+        Arrays.asList(
+            LetterMap.FirstIndex.get("zh"),
+            LetterMap.NextIndex.get("u"),
+            LetterMap.NextIndex.get(""),
+            4));
     assertEquals(Arrays.stream(index12).boxed().collect(Collectors.toList()),
-        Arrays.asList(30, 19, 0, 2));
+        Arrays.asList(
+            LetterMap.FirstIndex.get("w"),
+            LetterMap.NextIndex.get("u"),
+            LetterMap.NextIndex.get(""),
+            2));
     assertEquals(Arrays.stream(index13).boxed().collect(Collectors.toList()),
-        Arrays.asList(28, 19, 5, 1));
+        Arrays.asList(
+            LetterMap.FirstIndex.get("sh"),
+            LetterMap.NextIndex.get("u"),
+            LetterMap.NextIndex.get("ang"),
+            1));
 
     String name2 = "庄周";
     int[] index21 = processor.CharAt(name2.charAt(0));
     int[] index22 = processor.CharAt(name2.charAt(1));
 
     assertEquals(Arrays.stream(index21).boxed().collect(Collectors.toList()),
-        Arrays.asList(34, 19, 5, 1));
+        Arrays.asList(
+            LetterMap.FirstIndex.get("zh"),
+            LetterMap.NextIndex.get("u"),
+            LetterMap.NextIndex.get("ang"),
+            1));
     assertEquals(Arrays.stream(index22).boxed().collect(Collectors.toList()),
-        Arrays.asList(34, 18, 0, 1));
+        Arrays.asList(
+            LetterMap.FirstIndex.get("zh"),
+            LetterMap.NextIndex.get("ou"),
+            LetterMap.NextIndex.get(""),
+            1));
   }
 
   @Test
@@ -132,17 +153,104 @@ public class ChsCharToIdxArrBySyllaTest {
     int[] index12 = processor.CharAt(name1.charAt(1));
 
     assertEquals(Arrays.stream(index11).boxed().collect(Collectors.toList()),
-        Arrays.asList(32, 5, 0, 2));
+        Arrays.asList(
+            LetterMap.FirstIndex.get("y"),
+            LetterMap.NextIndex.get("ang"),
+            LetterMap.NextIndex.get(""),
+            2));
     assertEquals(Arrays.stream(index12).boxed().collect(Collectors.toList()),
-        Arrays.asList(32, 5, 0, 2));
+        Arrays.asList(
+            LetterMap.FirstIndex.get("y"),
+            LetterMap.NextIndex.get("ang"),
+            LetterMap.NextIndex.get(""),
+            2));
 
     String name2 = "倪妮";
     int[] index21 = processor.CharAt(name2.charAt(0));
     int[] index22 = processor.CharAt(name2.charAt(1));
 
     assertEquals(Arrays.stream(index21).boxed().collect(Collectors.toList()),
-        Arrays.asList(21, 11, 0, 2));
+        Arrays.asList(
+            LetterMap.FirstIndex.get("n"),
+            LetterMap.NextIndex.get("i"),
+            LetterMap.NextIndex.get(""),
+            2));
     assertEquals(Arrays.stream(index22).boxed().collect(Collectors.toList()),
-        Arrays.asList(21, 11, 0, 1));
+        Arrays.asList(
+            LetterMap.FirstIndex.get("n"),
+            LetterMap.NextIndex.get("i"),
+            LetterMap.NextIndex.get(""),
+            1));
   }
+
+  @Test
+  public void testCharAtString1() {
+    ChsCharToIdxArrBySylla processor = new ChsCharToIdxArrBySylla();
+
+    String name1 = "祝无双";
+    int[] index11 = processor.CharAt(name1);
+
+    assertEquals(Arrays.stream(index11).boxed().collect(Collectors.toList()),
+        Arrays.asList(
+            LetterMap.FirstIndex.get("zh"),
+            LetterMap.NextIndex.get("u"),
+            LetterMap.NextIndex.get(""),
+            4,
+            LetterMap.FirstIndex.get("w"),
+            LetterMap.NextIndex.get("u"),
+            LetterMap.NextIndex.get(""),
+            2,
+            LetterMap.FirstIndex.get("sh"),
+            LetterMap.NextIndex.get("u"),
+            LetterMap.NextIndex.get("ang"),
+            1));
+
+    String name2 = "庄周";
+    int[] index21 = processor.CharAt(name2);
+
+    assertEquals(Arrays.stream(index21).boxed().collect(Collectors.toList()),
+        Arrays.asList(
+            LetterMap.FirstIndex.get("zh"),
+            LetterMap.NextIndex.get("u"),
+            LetterMap.NextIndex.get("ang"),
+            1,
+            LetterMap.FirstIndex.get("zh"),
+            LetterMap.NextIndex.get("ou"),
+            LetterMap.NextIndex.get(""),
+            1));
+  }
+
+  @Test
+  public void testCharAtString2() {
+    ChsCharToIdxArrBySylla processor = new ChsCharToIdxArrBySylla();
+
+    String name1 = "杨洋";
+    int[] index11 = processor.CharAt(name1);
+
+    assertEquals(Arrays.stream(index11).boxed().collect(Collectors.toList()),
+        Arrays.asList(
+            LetterMap.FirstIndex.get("y"),
+            LetterMap.NextIndex.get("ang"),
+            LetterMap.NextIndex.get(""),
+            2,
+            LetterMap.FirstIndex.get("y"),
+            LetterMap.NextIndex.get("ang"),
+            LetterMap.NextIndex.get(""),
+            2));
+
+    String name2 = "倪妮";
+    int[] index21 = processor.CharAt(name2);
+
+    assertEquals(Arrays.stream(index21).boxed().collect(Collectors.toList()),
+        Arrays.asList(
+            LetterMap.FirstIndex.get("n"),
+            LetterMap.NextIndex.get("i"),
+            LetterMap.NextIndex.get(""),
+            2,
+            LetterMap.FirstIndex.get("n"),
+            LetterMap.NextIndex.get("i"),
+            LetterMap.NextIndex.get(""),
+            1));
+  }
+
 }

@@ -1,8 +1,11 @@
 package edu.neu.coe.info6205.team7;
 
 import edu.neu.coe.info6205.team7.NameByLetter.NameByLetter;
+import edu.neu.coe.info6205.team7.NameBySyllabification.NameBySyllabification;
+import java.util.Arrays;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class NameByLetterTest {
@@ -87,5 +90,36 @@ public class NameByLetterTest {
     NameByLetter name5 = new NameByLetter("啊");
     NameByLetter name6 = new NameByLetter("阿");
     assertEquals(name5.compareTo(name6), 1);
+  }
+
+  @Test
+  public void testCompare3() {
+    NameByLetter[] Names = new NameByLetter[14];
+    int i = 0;
+    Names[i++] = new NameByLetter("李白");
+    Names[i++] = new NameByLetter("李白白");
+    Names[i++] = new NameByLetter("杜甫");
+    Names[i++] = new NameByLetter("杜芙");
+    Names[i++] = new NameByLetter("白居易");
+    Names[i++] = new NameByLetter("白居一");
+    Names[i++] = new NameByLetter("白居疑");
+    Names[i++] = new NameByLetter("苏东坡");
+    Names[i++] = new NameByLetter("苏东");
+    Names[i++] = new NameByLetter("欧阳修");
+    Names[i++] = new NameByLetter("欧阳休");
+    Names[i++] = new NameByLetter("字");
+    Names[i++] = new NameByLetter("至");
+    Names[i] = new NameByLetter("咋");
+
+    String[] expectRes = {"白居一", "白居疑", "白居易", "杜芙", "杜甫", "李白", "李白白",
+        "欧阳修", "欧阳休", "苏东", "苏东坡", "咋", "至", "字"};
+
+    Arrays.sort(Names);
+    String[] sortRes = new String[Names.length];
+    for (int j = 0; j < sortRes.length; j++) {
+      sortRes[j] = Names[j].getName();
+    }
+
+    assertArrayEquals(expectRes, sortRes);
   }
 }

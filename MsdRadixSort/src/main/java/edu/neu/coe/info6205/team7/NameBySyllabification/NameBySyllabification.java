@@ -58,37 +58,4 @@ public class NameBySyllabification implements
     return Integer.compare(this.Name.length(), o.getName().length());
   }
 
-  public static void demo() {
-    List<String> names = new ArrayList<>();
-    names.add("李白");
-    names.add("李白白");
-
-    names.add("杜甫");
-    names.add("杜芙");
-
-    names.add("白居易");
-    names.add("白居一");
-    names.add("白居亦");
-    names.add("白居疑");
-
-    names.add("苏东坡");
-    names.add("苏东");
-
-    names.add("欧阳修");
-    names.add("欧阳休");
-
-    // Using each Chinese name to construct a name processor by Syllabification
-    List<NameBySyllabification> namesProcessor = new ArrayList<>();
-    for (String s : names) {
-      NameBySyllabification name = new NameBySyllabification(s);
-      namesProcessor.add(name);
-    }
-
-    //namesProcessor.forEach(o -> System.out.println(o.NameSplitPinyin));
-
-    namesProcessor.stream()
-        .sorted()
-        .forEach(o -> System.out.println(o.Name));
-  }
-
 }
