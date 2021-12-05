@@ -56,7 +56,8 @@ abstract class PinyinSort extends RadixSort {
   }
 
   void sort(int lo, int hi, int d, int cirIdx) {
-    if (hi <= lo + cutoff) {
+    if (hi <= lo) {
+    } else if (hi < lo + cutoff) {
       InsertionSortPinyin.sort(compArr, lo, hi, d);
     } else {
       int[] count = new int[radix[cirIdx] + 2];
