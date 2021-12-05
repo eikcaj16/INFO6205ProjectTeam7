@@ -32,97 +32,111 @@ public class HuskySortDriver {
       };
 
   public static void testSylla(List<String> names_txt) {
-    NameBySyllabification[] names = new NameBySyllabification[names_txt.size()];
-    for (int i = 0; i < names_txt.size(); i++) {
-      names[i] = new NameBySyllabification(names_txt.get(i));
-    }
+    int[] data_size = {250000, 500000, 1000000, 2000000, 4000000};
 
-    Collections.shuffle(Arrays.asList(names));
-    final int sort_times = 10;
+    for(int size: data_size) {
+      assert size <= names_txt.size();
+      System.out.println("\tdata size: " + size);
 
-    long normal_count = 0;
-    for (int i = 0; i < sort_times; i++) {
-      NameBySyllabification[] temp = names.clone();
-      long t1 = System.nanoTime();
-      Arrays.sort(temp);
-      long t2 = System.nanoTime();
-
-      NameByLetter[] names_final = new NameByLetter[names.length];
-      for (int j = 0; j < temp.length; j++) {
-        names_final[j] = new NameByLetter(temp[j].getName());
+      NameBySyllabification[] names = new NameBySyllabification[size];
+      for (int i = 0; i < size; i++) {
+        names[i] = new NameBySyllabification(names_txt.get(i));
       }
 
-      long t3 = System.nanoTime();
-      Arrays.sort(names_final);
-      long t4 = System.nanoTime();
+      Collections.shuffle(Arrays.asList(names));
+      final int sort_times = 10;
 
-      normal_count += ((t2 - t1) + (t4 - t3));
-    }
-    System.out.println("System sort: " + normal_count / 1e6 / sort_times + "ms");
+      long normal_count = 0;
+      for (int i = 0; i < sort_times; i++) {
+        NameBySyllabification[] temp = names.clone();
+        long t1 = System.nanoTime();
+        Arrays.sort(temp);
+        long t2 = System.nanoTime();
 
-    long husky_count = 0;
-    for (int i = 0; i < sort_times; i++) {
-      NameBySyllabification[] temp = names.clone();
-      long t1 = System.nanoTime();
-      PureHuskySort<NameBySyllabification> sorter =
-          new PureHuskySort<>(nameCoderBySylla,
-              false,
-              false);
-      sorter.sort(temp);
-      long t2 = System.nanoTime();
+        NameByLetter[] names_final = new NameByLetter[names.length];
+        for (int j = 0; j < temp.length; j++) {
+          names_final[j] = new NameByLetter(temp[j].getName());
+        }
 
-      NameByLetter[] names_final = new NameByLetter[names.length];
-      for (int j = 0; j < temp.length; j++) {
-        names_final[j] = new NameByLetter(temp[j].getName());
+        long t3 = System.nanoTime();
+        Arrays.sort(names_final);
+        long t4 = System.nanoTime();
+
+        normal_count += ((t2 - t1) + (t4 - t3));
       }
+      System.out.println("\t\tSystem sort: " + normal_count / 1e6 / sort_times + "ms");
 
-      long t3 = System.nanoTime();
-      Arrays.sort(names_final);
-      long t4 = System.nanoTime();
+      long husky_count = 0;
+      for (int i = 0; i < sort_times; i++) {
+        NameBySyllabification[] temp = names.clone();
+        long t1 = System.nanoTime();
+        PureHuskySort<NameBySyllabification> sorter =
+            new PureHuskySort<>(nameCoderBySylla,
+                false,
+                false);
+        sorter.sort(temp);
+        long t2 = System.nanoTime();
 
-      husky_count += ((t2 - t1) + (t4 - t3));
+        NameByLetter[] names_final = new NameByLetter[names.length];
+        for (int j = 0; j < temp.length; j++) {
+          names_final[j] = new NameByLetter(temp[j].getName());
+        }
+
+        long t3 = System.nanoTime();
+        Arrays.sort(names_final);
+        long t4 = System.nanoTime();
+
+        husky_count += ((t2 - t1) + (t4 - t3));
+      }
+      System.out.println("\t\tHusky sort: " + husky_count / 1e6 / sort_times + "ms");
     }
-    System.out.println("Husky sort: " + husky_count / 1e6 / sort_times + "ms");
   }
 
   public static void testLetter(List<String> names_txt) {
-    NameByLetter[] names = new NameByLetter[names_txt.size()];
-    for (int i = 0; i < names_txt.size(); i++) {
-      names[i] = new NameByLetter(names_txt.get(i));
-    }
+    int[] data_size = {250000, 500000, 1000000, 2000000, 4000000};
 
-    Collections.shuffle(Arrays.asList(names));
-    final int sort_times = 10;
+    for(int size: data_size) {
+      assert size <= names_txt.size();
+      System.out.println("\tdata size: " + size);
+      NameByLetter[] names = new NameByLetter[size];
+      for (int i = 0; i < size; i++) {
+        names[i] = new NameByLetter(names_txt.get(i));
+      }
 
-    long normal_count = 0;
-    for (int i = 0; i < sort_times; i++) {
-      NameByLetter[] temp = names.clone();
-      long t1 = System.nanoTime();
-      Arrays.sort(temp);
-      long t2 = System.nanoTime();
-      normal_count += (t2 - t1);
-    }
-    System.out.println("System sort: " + normal_count / 1e6 / sort_times + "ms");
+      Collections.shuffle(Arrays.asList(names));
 
-    long husky_count = 0;
-    for (int i = 0; i < sort_times; i++) {
-      NameByLetter[] temp = names.clone();
-      long t1 = System.nanoTime();
-      PureHuskySort<NameByLetter> sorter =
-          new PureHuskySort<>(nameCoderByLetter,
-              false,
-              false);
-      sorter.sort(temp);
-      long t2 = System.nanoTime();
-      husky_count += (t2 - t1);
+      final int sort_times = 10;
+
+      long normal_count = 0;
+      for (int i = 0; i < sort_times; i++) {
+        NameByLetter[] temp = names.clone();
+        long t1 = System.nanoTime();
+        Arrays.sort(temp);
+        long t2 = System.nanoTime();
+        normal_count += (t2 - t1);
+      }
+      System.out.println("\t\tSystem sort: " + normal_count / 1e6 / sort_times + "ms");
+
+      long husky_count = 0;
+      for (int i = 0; i < sort_times; i++) {
+        NameByLetter[] temp = names.clone();
+        long t1 = System.nanoTime();
+        PureHuskySort<NameByLetter> sorter =
+            new PureHuskySort<>(nameCoderByLetter,
+                false,
+                false);
+        sorter.sort(temp);
+        long t2 = System.nanoTime();
+        husky_count += (t2 - t1);
+      }
+      System.out.println("\t\tHusky sort: " + husky_count / 1e6 / sort_times + "ms");
     }
-    System.out.println("Husky sort: " + husky_count / 1e6 / sort_times + "ms");
   }
 
-  public static void demo() {
+  public static void main(String[] args) {
     List<String> names_txt = new ArrayList<>();
     try {
-      FileReader fr = new FileReader("./sortedChinese.txt");
+      FileReader fr = new FileReader("./src/main/resources/shuffledChinese.txt");
       BufferedReader br = new BufferedReader(fr);
       System.out.println("\n======== Create file reader success! ========");
 
@@ -137,6 +151,9 @@ public class HuskySortDriver {
     } catch (Exception e) {
       e.printStackTrace();
     }
+
+    names_txt.addAll(names_txt);
+    names_txt.addAll(names_txt);
 
     System.out.println("\nTesting name sort by letter:");
     testLetter(names_txt);
