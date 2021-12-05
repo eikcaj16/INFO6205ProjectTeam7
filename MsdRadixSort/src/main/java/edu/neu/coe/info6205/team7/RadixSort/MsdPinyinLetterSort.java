@@ -19,6 +19,12 @@ public final class MsdPinyinLetterSort extends PinyinLetterSort {
     cutoff = 5;
   }
 
+  public MsdPinyinLetterSort(Helper<String> helper, int c) {
+    super(helper);
+    radix = new int[]{24, 10, 8, 8, 6, 2, 5};
+    cutoff = c;
+  }
+
   @Override
   void convertStrArrToByteArr(String[] wordArr) {
     final ChsCharToIdxArrByLetter cctiabl = new ChsCharToIdxArrByLetter();

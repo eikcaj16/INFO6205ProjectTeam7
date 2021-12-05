@@ -19,6 +19,12 @@ public final class MsdPinyinSyllabificationSort extends PinyinSyllabificationSor
     cutoff = 6;
   }
 
+  public MsdPinyinSyllabificationSort(Helper<String> helper, int c) {
+    super(helper);
+    radix = new int[]{36, 24, 24, 5};
+    cutoff = c;
+  }
+
   @Override
   void convertStrArrToByteArr(String[] wordArr) {
     final ChsCharToIdxArrBySylla cctiabs = new ChsCharToIdxArrBySylla();
