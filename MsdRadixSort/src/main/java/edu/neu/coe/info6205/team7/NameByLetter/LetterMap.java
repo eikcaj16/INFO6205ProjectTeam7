@@ -5,12 +5,12 @@ import java.util.Map;
 
 public class LetterMap {
 
-  final static Map<Character, Integer> index0 = new HashMap<>();
-  final static Map<Character, Integer> index1 = new HashMap<>();
-  final static Map<Character, Integer> index2 = new HashMap<>();
-  final static Map<Character, Integer> index3 = new HashMap<>();
-  final static Map<Character, Integer> index4 = new HashMap<>();
-  final static Map<Character, Integer> index5 = new HashMap<>();
+  public final static Map<Character, Integer> index0 = new HashMap<>();
+  public final static Map<Character, Integer> index1 = new HashMap<>();
+  public final static Map<Character, Integer> index2 = new HashMap<>();
+  public final static Map<Character, Integer> index3 = new HashMap<>();
+  public final static Map<Character, Integer> index4 = new HashMap<>();
+  public final static Map<Character, Integer> index5 = new HashMap<>();
 
   static {
     int index = 1;

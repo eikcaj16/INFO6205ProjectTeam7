@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.team7.Benchmark;
+package edu.neu.coe.info6205.team7.util;
 
 import edu.neu.coe.huskySort.sort.huskySortUtils.BaseHuskySequenceCoder;
 import edu.neu.coe.huskySort.sort.huskySortUtils.HuskyCoderFactory;
@@ -7,35 +7,32 @@ import edu.neu.coe.huskySort.sort.simple.QuickSort_DualPivot;
 import edu.neu.coe.huskySort.sort.simple.TimSort;
 import edu.neu.coe.huskySort.util.SorterBenchmark;
 import edu.neu.coe.huskySort.util.TimeLogger;
+import edu.neu.coe.info6205.team7.Benchmark.BenchmarkChineseSort;
+import edu.neu.coe.info6205.team7.Benchmark.HelperWIthTesting;
+import edu.neu.coe.info6205.team7.NameByLetter.NameByLetter;
+import edu.neu.coe.info6205.team7.NameBySyllabification.NameBySyllabification;
+import edu.neu.coe.info6205.team7.PureHuskySortWithHelper;
 import edu.neu.coe.info6205.team7.RadixSort.LsdPinyinLetterSort;
 import edu.neu.coe.info6205.team7.RadixSort.LsdPinyinSyllabificationSort;
 import edu.neu.coe.info6205.team7.RadixSort.MsdPinyinLetterSort;
 import edu.neu.coe.info6205.team7.RadixSort.MsdPinyinSyllabificationSort;
-import edu.neu.coe.info6205.team7.NameByLetter.NameByLetter;
-import edu.neu.coe.info6205.team7.NameBySyllabification.NameBySyllabification;
-import edu.neu.coe.info6205.team7.PureHuskySortWithHelper;
 import edu.neu.coe.info6205.team7.RadixSort.RadixSort;
-
-import edu.neu.coe.info6205.team7.util.FileUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.UnaryOperator;
+import javax.naming.Name;
 
-public class BenchmarkChineseSort {
+public class OutputSortingResult {
 
-  int nRuns = 500;
-  int[] datasetSize = {250000, 500000, 1000000, 2000000, 4000000};
-  public final static TimeLogger[] timeLoggersLinearithmic = {
-      new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
-  };
+  int[] datasetSize = {500};
 
   public static void main(String[] args) {
-    BenchmarkChineseSort benchmark = new BenchmarkChineseSort();
-    benchmark.runBenchmark();
+    OutputSortingResult output = new OutputSortingResult();
+    output.runOutput();
   }
 
-  private void runBenchmark() {
+  public void runOutput() {
     // Read words from file
     String[] data = FileUtil.readArrayFromFile("/shuffledChinese.txt");
 //    List<String> data = readChineseArrayFromFile("/shuffledChinese.txt");
@@ -55,82 +52,93 @@ public class BenchmarkChineseSort {
       NameBySyllabification[] nameBySyllabification) {
 
     int nWords = toSort.length;
+    NameByLetter[] tempForLetter;
+    NameBySyllabification[] tempForSylla;
+    String[] tempForString;
 
     // With Letters
-    // With Syllabification
     System.out.println("------------------------Sort with Letters-----------------");
     // Tim Sort
-    new SorterBenchmark<>(NameByLetter.class, null,
-        new TimSort<NameByLetter>(new HelperWIthTesting<>("TimSort", nWords)), nameByLetters, nRuns,
-        timeLoggersLinearithmic).run(nWords);
+    TimSort<NameByLetter> tim_sorter = new TimSort<NameByLetter>(
+        new HelperWIthTesting<>("TimSort", nWords));
+    tempForLetter = nameByLetters.clone();
+    tempForLetter = tim_sorter.sort(tempForLetter);
+    FileUtil.writeArrayToFile(tempForLetter, "timsort_result.txt");
 
     // Dual Pivot Quick Sort
-    new SorterBenchmark<>(NameByLetter.class, null, new QuickSort_DualPivot<NameByLetter>(
-        new HelperWIthTesting<>("QuickSort_DualPivot with NameByLetter", nWords)), nameByLetters,
-        nRuns, timeLoggersLinearithmic).run(nWords);
+    QuickSort_DualPivot<NameByLetter> quick_sorter = new QuickSort_DualPivot<NameByLetter>(
+        new HelperWIthTesting<>("QuickSort_DualPivot with NameByLetter", nWords));
+    tempForLetter = nameByLetters.clone();
+    tempForLetter = quick_sorter.sort(tempForLetter);
+    FileUtil.writeArrayToFile(tempForLetter, "quicksort_result.txt");
 
     // Husky Sort
-    new SorterBenchmark<>(NameByLetter.class, null, new PureHuskySortWithHelper<>(nameCoderByLetter,
-        new HelperWIthTesting<>("HuskySort with NameByLetter", nWords)), nameByLetters, nRuns,
-        timeLoggersLinearithmic).run(nWords);
+    PureHuskySortWithHelper<NameByLetter> husky_sorter =
+        new PureHuskySortWithHelper<>(nameCoderByLetter,
+            new HelperWIthTesting<>("HuskySort with NameByLetter", nWords));
+    tempForLetter = nameByLetters.clone();
+    tempForLetter = husky_sorter.sort(tempForLetter);
+    FileUtil.writeArrayToFile(tempForLetter, "huskysort_result.txt");
 
     // MSD Sort
     RadixSort MsdByLetter = new MsdPinyinLetterSort(
         new HelperWIthTesting<>("MSD sort with Letter", nWords), 3);
-    final UnaryOperator<String[]> MsdPre_1 = t -> {
-      MsdByLetter.preProcess(t);
-      return t;
-    };
-    new SorterBenchmark<>(String.class, MsdPre_1, MsdByLetter, toSort, nRuns,
-        timeLoggersLinearithmic).run(nWords);
+    tempForString = toSort.clone();
+    MsdByLetter.preProcess(tempForString);
+    MsdByLetter.sort(tempForString);
+    MsdByLetter.postProcess(tempForString);
+    FileUtil.writeArrayToFile(tempForString, "LetterSortOrder/msdsort_result.txt");
 
     // LSD Sort
     RadixSort LsdByLetter = new LsdPinyinLetterSort(
         new HelperWIthTesting<>("LSD sort with Letter", nWords));
-    final UnaryOperator<String[]> LsdPre_1 = t -> {
-      LsdByLetter.preProcess(t);
-      return t;
-    };
-    new SorterBenchmark<>(String.class, LsdPre_1, LsdByLetter, toSort, nRuns,
-        timeLoggersLinearithmic).run(nWords);
+    tempForString = toSort.clone();
+    LsdByLetter.preProcess(tempForString);
+    LsdByLetter.sort(tempForString);
+    LsdByLetter.postProcess(tempForString);
+    FileUtil.writeArrayToFile(tempForString, "LetterSortOrder/lsdsort_result.txt");
 
     // With Syllabification
     System.out.println("------------------------Sort with Syllabification-----------------");
     // Tim Sort
-    new SorterBenchmark<>(NameBySyllabification.class, null,
-        new TimSort<NameBySyllabification>(new HelperWIthTesting<>("TimSort", nWords)),
-        nameBySyllabification, nRuns, timeLoggersLinearithmic).run(nWords);
-    // Dual Pivot Quicksort
-    new SorterBenchmark<>(NameBySyllabification.class, null,
-        new QuickSort_DualPivot<NameBySyllabification>(
-            new HelperWIthTesting<>("QuickSort_DualPivot",
-                nWords)), nameBySyllabification, nRuns,
-        timeLoggersLinearithmic).run(nWords);
-    // Husky sort
-    new SorterBenchmark<>(NameBySyllabification.class, null,
+    TimSort<NameBySyllabification> tim_sorter_2 = new TimSort<NameBySyllabification>(
+        new HelperWIthTesting<>("TimSort", nWords));
+    tempForSylla = nameBySyllabification.clone();
+    tempForSylla = tim_sorter_2.sort(tempForSylla);
+    FileUtil.writeArrayToFile(tempForSylla, "timsort_result.txt");
+
+    // Dual Pivot Quick Sort
+    QuickSort_DualPivot<NameBySyllabification> quick_sorter_2 = new QuickSort_DualPivot<NameBySyllabification>(
+        new HelperWIthTesting<>("QuickSort_DualPivot", nWords));
+    tempForSylla = nameBySyllabification.clone();
+    tempForSylla = quick_sorter_2.sort(tempForSylla);
+    FileUtil.writeArrayToFile(tempForSylla, "quicksort_result.txt");
+
+    // Husky Sort
+    PureHuskySortWithHelper<NameBySyllabification> husky_sorter_2 =
         new PureHuskySortWithHelper<>(nameCoderBySylla,
-            new HelperWIthTesting<>("HuskySort with NameBySyllabification", nWords)),
-        nameBySyllabification, nRuns, timeLoggersLinearithmic).run(nWords);
+            new HelperWIthTesting<>("HuskySort with NameByLetter", nWords));
+    tempForSylla = nameBySyllabification.clone();
+    tempForSylla = husky_sorter_2.sort(tempForSylla);
+    FileUtil.writeArrayToFile(tempForSylla, "huskysort_result.txt");
+
     // MSD Sort
     RadixSort MsdBySyllabification = new MsdPinyinSyllabificationSort(
         new HelperWIthTesting<>("MSD sort with Syllabification", nWords), 3);
-    final UnaryOperator<String[]> MsdPre_2 = t -> {
-      MsdBySyllabification.preProcess(t);
-      return t;
-    };
-    new SorterBenchmark<>(String.class, MsdPre_2, MsdBySyllabification, toSort, nRuns,
-        timeLoggersLinearithmic).run(nWords);
-    // LSD Sort
+    tempForString = toSort.clone();
+    MsdBySyllabification.preProcess(tempForString);
+    MsdBySyllabification.sort(tempForString);
+    MsdBySyllabification.postProcess(tempForString);
+    FileUtil.writeArrayToFile(tempForString, "SyllableSortOrder/msdsort_result.txt");
 
+    // LSD Sort
     RadixSort LsdBySyllabification = new LsdPinyinSyllabificationSort(
         new HelperWIthTesting<>("LSD sort with Syllabification", nWords));
-    final UnaryOperator<String[]> LsdPre_2 = t -> {
-      LsdBySyllabification.preProcess(t);
-      return t;
-    };
-    new SorterBenchmark<>(String.class, LsdPre_2, LsdBySyllabification, toSort, nRuns,
-        timeLoggersLinearithmic).run(nWords);
-    //Benchmark Done
+    tempForString = toSort.clone();
+    LsdBySyllabification.preProcess(tempForString);
+    LsdBySyllabification.sort(tempForString);
+    LsdBySyllabification.postProcess(tempForString);
+    FileUtil.writeArrayToFile(tempForString, "SyllableSortOrder/lsdsort_result.txt");
   }
 
   private List<NameByLetter> constructNameByLetter(List<String> src, int size) {
