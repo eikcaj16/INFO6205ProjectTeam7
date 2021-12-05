@@ -18,6 +18,12 @@ public final class LsdPinyinLetterSort extends PinyinLetterSort {
     radix = new int[]{25, 10, 8, 8, 6, 2, 6};
   }
 
+  public LsdPinyinLetterSort(Helper<String> helper, int maxWordLength) {
+    super(helper);
+    radix = new int[]{25, 10, 8, 8, 6, 2, 6};
+    maxWordLen = maxWordLength;
+  }
+
   @Override
   /**
    * Sort from xs[lo] to xs[hi] (exclusive) xs is an array of strings using LsdRadixSort.

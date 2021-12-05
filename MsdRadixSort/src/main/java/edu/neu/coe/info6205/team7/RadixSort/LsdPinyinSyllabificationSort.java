@@ -19,6 +19,12 @@ public final class LsdPinyinSyllabificationSort extends PinyinSyllabificationSor
     radix = new int[]{37, 24, 24, 6};
   }
 
+  public LsdPinyinSyllabificationSort(Helper<String> helper, int maxWordLength) {
+    super(helper);
+    radix = new int[]{37, 24, 24, 6};
+    maxWordLen = maxWordLength;
+  }
+
   @Override
   /**
    * Sort from xs[lo] to xs[hi] (exclusive) xs is an array of strings using LsdRadixSort.

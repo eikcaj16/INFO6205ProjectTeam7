@@ -19,6 +19,13 @@ public class AdvancedMsdPinyinLetterSort extends RadixSort {
     msdPinyinSyllabificationSort = new MsdPinyinSyllabificationSort(helper);
   }
 
+  public AdvancedMsdPinyinLetterSort(Helper<String> helper, int maxWordLength) {
+    super(helper);
+    this.helper = helper;
+    maxWordLen = maxWordLength;
+    msdPinyinSyllabificationSort = new MsdPinyinSyllabificationSort(helper, maxWordLength);
+  }
+
   @Override
   /**
    * Sort from xs[lo] to xs[hi] (exclusive) xs is an array of strings.
@@ -34,7 +41,7 @@ public class AdvancedMsdPinyinLetterSort extends RadixSort {
   public void sort(String[] xs, int lo, int hi) {
     msdPinyinSyllabificationSort.sort(xs, lo, hi);
     msdPinyinSyllabificationSort.postProcess(xs);
-    RadixSort msdPinyinLetterSort = new MsdPinyinLetterSort(helper);
+    RadixSort msdPinyinLetterSort = new MsdPinyinLetterSort(helper, maxWordLen);
     msdPinyinLetterSort.preProcess(xs);
     msdPinyinLetterSort.sort(xs, lo, hi);
   }
@@ -51,9 +58,10 @@ public class AdvancedMsdPinyinLetterSort extends RadixSort {
 
   private final RadixSort msdPinyinSyllabificationSort;
   private final Helper<String> helper;
+  private int maxWordLen = 4;
 
   public static void main(String[] args) {
-    String[] sa = {"老伙计", "救济", "做作", "经济", "坐下", "啊"};
+    String[] sa = {"老伙计", "救济", "做作", "经济", "坐下", "啊", "砸", "子", "值"};
     RadixSort mrs = new AdvancedMsdPinyinLetterSort(new HelperWIthTesting<>("MSD Radix Sort"));
     mrs.preProcess(sa);
     mrs.sort(sa, 0, sa.length);

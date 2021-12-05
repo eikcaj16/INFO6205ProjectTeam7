@@ -16,13 +16,12 @@ public final class MsdPinyinSyllabificationSort extends PinyinSyllabificationSor
   public MsdPinyinSyllabificationSort(Helper<String> helper) {
     super(helper);
     radix = new int[]{36, 24, 24, 5};
-    cutoff = 6;
   }
 
-  public MsdPinyinSyllabificationSort(Helper<String> helper, int c) {
+  public MsdPinyinSyllabificationSort(Helper<String> helper, int maxWordLength) {
     super(helper);
     radix = new int[]{36, 24, 24, 5};
-    cutoff = c;
+    maxWordLen = maxWordLength;
   }
 
   @Override
