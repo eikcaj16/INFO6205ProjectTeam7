@@ -31,7 +31,18 @@ public class BenchmarkChineseSort {
   public final static TimeLogger[] timeLoggersLinearithmic = {
       new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
   };
-
+  final UnaryOperator<NameBySyllabification[]> pre_1 = t -> {
+    for (NameBySyllabification n : t){
+      n.init();
+    }
+    return t;
+  };
+  final UnaryOperator<NameByLetter[]> pre_2 = t -> {
+    for (NameByLetter n : t){
+      n.init();
+    }
+    return t;
+  };
   public static void main(String[] args) {
     BenchmarkChineseSort benchmark = new BenchmarkChineseSort();
     benchmark.runBenchmark();
@@ -61,17 +72,16 @@ public class BenchmarkChineseSort {
     // With Syllabification
     System.out.println("------------------------Sort with Letters-----------------");
     // Tim Sort
-    new SorterBenchmark<>(NameByLetter.class, null,
-        new TimSort<NameByLetter>(new HelperWIthTesting<>("TimSort", nWords)), nameByLetters, nRuns,
+    new SorterBenchmark<>(NameByLetter.class, pre_2, new TimSort<NameByLetter>(new HelperWIthTesting<>("TimSort", nWords)), nameByLetters, nRuns,
         timeLoggersLinearithmic).run(nWords);
 
     // Dual Pivot Quick Sort
-    new SorterBenchmark<>(NameByLetter.class, null, new QuickSort_DualPivot<NameByLetter>(
+    new SorterBenchmark<>(NameByLetter.class, pre_2, new QuickSort_DualPivot<NameByLetter>(
         new HelperWIthTesting<>("QuickSort_DualPivot with NameByLetter", nWords)), nameByLetters,
         nRuns, timeLoggersLinearithmic).run(nWords);
 
     // Husky Sort
-    new SorterBenchmark<>(NameByLetter.class, null, new PureHuskySortWithHelper<>(nameCoderByLetter,
+    new SorterBenchmark<>(NameByLetter.class, pre_2, new PureHuskySortWithHelper<>(nameCoderByLetter,
         new HelperWIthTesting<>("HuskySort with NameByLetter", nWords)), nameByLetters, nRuns,
         timeLoggersLinearithmic).run(nWords);
 
@@ -98,17 +108,17 @@ public class BenchmarkChineseSort {
     // With Syllabification
     System.out.println("------------------------Sort with Syllabification-----------------");
     // Tim Sort
-    new SorterBenchmark<>(NameBySyllabification.class, null,
+    new SorterBenchmark<>(NameBySyllabification.class,pre_1,
         new TimSort<NameBySyllabification>(new HelperWIthTesting<>("TimSort", nWords)),
         nameBySyllabification, nRuns, timeLoggersLinearithmic).run(nWords);
     // Dual Pivot Quicksort
-    new SorterBenchmark<>(NameBySyllabification.class, null,
+    new SorterBenchmark<>(NameBySyllabification.class,pre_1,
         new QuickSort_DualPivot<NameBySyllabification>(
             new HelperWIthTesting<>("QuickSort_DualPivot",
                 nWords)), nameBySyllabification, nRuns,
         timeLoggersLinearithmic).run(nWords);
     // Husky sort
-    new SorterBenchmark<>(NameBySyllabification.class, null,
+    new SorterBenchmark<>(NameBySyllabification.class,pre_1,
         new PureHuskySortWithHelper<>(nameCoderBySylla,
             new HelperWIthTesting<>("HuskySort with NameBySyllabification", nWords)),
         nameBySyllabification, nRuns, timeLoggersLinearithmic).run(nWords);

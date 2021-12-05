@@ -24,12 +24,11 @@ public class NameByLetter implements
 
   public NameByLetter(String name) {
     this.name = name;
-
-    /*
+  }
+  public void init(){
     ChsCharToIdxArrByLetter processor = new ChsCharToIdxArrByLetter();
     IndexArr = processor.CharAt(name);
     pinyin_length = IndexArr.length / 7;
-     */
   }
 
   public String getName() {
@@ -58,16 +57,6 @@ public class NameByLetter implements
 
   @Override
   public int compareTo(NameByLetter o) {
-    if (IndexArr == null){
-      ChsCharToIdxArrByLetter processor = new ChsCharToIdxArrByLetter();
-      IndexArr = processor.CharAt(name);
-      pinyin_length = IndexArr.length / 7;
-    }
-    if (o.IndexArr == null){
-      ChsCharToIdxArrByLetter processor = new ChsCharToIdxArrByLetter();
-      o.IndexArr = processor.CharAt(o.name);
-      o.pinyin_length = o.IndexArr.length / 7;
-    }
     int length = Math.min(name.length(), o.name.length());
 
     for (int i = 0; i < length; i++) {

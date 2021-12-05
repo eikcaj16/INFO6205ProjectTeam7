@@ -19,6 +19,10 @@ public class NameBySyllabification implements
      */
   }
 
+  public void init(){
+    ChsCharToIdxArrBySylla processor = new ChsCharToIdxArrBySylla();
+    IndexArr = processor.CharAt(Name);
+  }
   public String getName() {
     return Name;
   }
@@ -45,14 +49,6 @@ public class NameBySyllabification implements
 
   @Override
   public int compareTo(NameBySyllabification o) {
-    if (IndexArr == null){
-      ChsCharToIdxArrBySylla processor = new ChsCharToIdxArrBySylla();
-      IndexArr = processor.CharAt(Name);
-    }
-    if (o.IndexArr == null){
-      ChsCharToIdxArrByLetter processor = new ChsCharToIdxArrByLetter();
-      o.IndexArr = processor.CharAt(o.Name);
-    }
     int compare_length = Math.min(Name.length(), o.Name.length());
 
     for (int i = 0; i < compare_length; i++) {

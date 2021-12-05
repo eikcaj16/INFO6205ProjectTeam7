@@ -130,8 +130,19 @@ public class HelperWIthTesting<X extends Comparable<X>> implements Helper<X> {
     }
     return Utilities.fillRandomArray(clazz, random, n, f);
   }
+
   @Override
   public X[] preProcess(X[] xs) {
+    if (xs.length > 0 && xs[0] instanceof NameByLetter){
+      for (X s:xs){
+        ((NameByLetter)s).init();
+      }
+    } else if (xs.length > 0 && xs[0] instanceof NameBySyllabification){
+      for (X s:xs){
+        ((NameBySyllabification)s).init();
+      }
+    }
+    return xs;
   }
 
   /**
@@ -142,11 +153,11 @@ public class HelperWIthTesting<X extends Comparable<X>> implements Helper<X> {
   @Override
   public void postProcess(X[] xs) {
     String[] res = new String[xs.length];
-    if (xs[0] instanceof NameByLetter){
+    if (xs.length > 0 && xs[0] instanceof NameByLetter){
       for (int i = 0;i < xs.length;i++){
         res[i] = ((NameByLetter) xs[i]).getName();
       }
-    } else if (xs[0] instanceof NameBySyllabification){
+    } else if (xs.length > 0 && xs[0] instanceof NameBySyllabification){
       for (int i = 0;i < xs.length;i++){
         res[i] = ((NameBySyllabification) xs[i]).getName();
       }
