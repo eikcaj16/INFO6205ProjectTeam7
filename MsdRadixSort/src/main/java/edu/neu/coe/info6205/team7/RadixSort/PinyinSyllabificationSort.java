@@ -26,7 +26,7 @@ class PinyinSyllabificationSort extends PinyinSort {
       case 2:
         return 1;
       case 3:
-        return 4;
+        return 5;
       default:
         return 0;
     }

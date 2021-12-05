@@ -26,7 +26,7 @@ class PinyinLetterSort extends PinyinSort {
       case 3:
         return 1;
       case 6:
-        return 4;
+        return 5;
       default:
         return 0;
     }
