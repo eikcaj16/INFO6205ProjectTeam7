@@ -40,15 +40,25 @@ public class HuskySortDriver {
     Collections.shuffle(Arrays.asList(names));
     final int sort_times = 10;
 
-//    long normal_count = 0;
-//    for (int i = 0; i < sort_times; i++) {
-//      NameBySyllabification[] temp = names.clone();
-//      long t1 = System.nanoTime();
-//      Arrays.sort(temp);
-//      long t2 = System.nanoTime();
-//      normal_count += (t2 - t1);
-//    }
-//    System.out.println("System sort: " + normal_count / 1e6 / sort_times + "ms");
+    long normal_count = 0;
+    for (int i = 0; i < sort_times; i++) {
+      NameBySyllabification[] temp = names.clone();
+      long t1 = System.nanoTime();
+      Arrays.sort(temp);
+      long t2 = System.nanoTime();
+
+      NameByLetter[] names_final = new NameByLetter[names.length];
+      for (int j = 0; j < temp.length; j++) {
+        names_final[j] = new NameByLetter(temp[j].getName());
+      }
+
+      long t3 = System.nanoTime();
+      Arrays.sort(names_final);
+      long t4 = System.nanoTime();
+
+      normal_count += ((t2 - t1) + (t4 - t3));
+    }
+    System.out.println("System sort: " + normal_count / 1e6 / sort_times + "ms");
 
     long husky_count = 0;
     for (int i = 0; i < sort_times; i++) {
@@ -60,7 +70,17 @@ public class HuskySortDriver {
               false);
       sorter.sort(temp);
       long t2 = System.nanoTime();
-      husky_count += (t2 - t1);
+
+      NameByLetter[] names_final = new NameByLetter[names.length];
+      for (int j = 0; j < temp.length; j++) {
+        names_final[j] = new NameByLetter(temp[j].getName());
+      }
+
+      long t3 = System.nanoTime();
+      Arrays.sort(names_final);
+      long t4 = System.nanoTime();
+
+      husky_count += ((t2 - t1) + (t4 - t3));
     }
     System.out.println("Husky sort: " + husky_count / 1e6 / sort_times + "ms");
   }
@@ -74,15 +94,15 @@ public class HuskySortDriver {
     Collections.shuffle(Arrays.asList(names));
     final int sort_times = 10;
 
-//    long normal_count = 0;
-//    for (int i = 0; i < sort_times; i++) {
-//      NameByLetter[] temp = names.clone();
-//      long t1 = System.nanoTime();
-//      Arrays.sort(temp);
-//      long t2 = System.nanoTime();
-//      normal_count += (t2 - t1);
-//    }
-//    System.out.println("System sort: " + normal_count / 1e6 / sort_times + "ms");
+    long normal_count = 0;
+    for (int i = 0; i < sort_times; i++) {
+      NameByLetter[] temp = names.clone();
+      long t1 = System.nanoTime();
+      Arrays.sort(temp);
+      long t2 = System.nanoTime();
+      normal_count += (t2 - t1);
+    }
+    System.out.println("System sort: " + normal_count / 1e6 / sort_times + "ms");
 
     long husky_count = 0;
     for (int i = 0; i < sort_times; i++) {
