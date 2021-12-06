@@ -12,7 +12,7 @@ import java.util.List;
 
 public class FileUtil {
 
-  private static final String output_path = "./src/main/output/";
+  private static final String output_path = "./output/";
 
   public static String[] readArrayFromFile(String srcPath) {
     return readArrayFromFile(srcPath, -1);
