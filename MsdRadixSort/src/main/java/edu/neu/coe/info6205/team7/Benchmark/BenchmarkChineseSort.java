@@ -18,7 +18,6 @@ import edu.neu.coe.info6205.team7.RadixSort.RadixSort;
 
 import edu.neu.coe.info6205.team7.util.FileUtil;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -26,7 +25,7 @@ import java.util.function.UnaryOperator;
 
 public class BenchmarkChineseSort {
 
-  int nRuns = 500;
+  int nRuns = 1;
   int[] datasetSize = {250000, 500000, 1000000, 2000000, 4000000};
   public final static TimeLogger[] timeLoggersLinearithmic = {
       new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
@@ -59,7 +58,6 @@ public class BenchmarkChineseSort {
     int nWords = toSort.length;
 
     // With Letters
-    // With Syllabification
     System.out.println("------------------------Sort with Letters-----------------");
     final UnaryOperator<NameByLetter[]> NamePre_1 = t -> {
       for (NameByLetter each : t) {
@@ -107,7 +105,7 @@ public class BenchmarkChineseSort {
 
     // LSD Sort
     RadixSort LsdByLetter = new LsdPinyinLetterSort(
-        new HelperWIthTesting<>("LSD sort with Letter", nWords));
+        new HelperWIthTesting<>("LSD sort with Letter", nWords), 3);
     final UnaryOperator<String[]> LsdPre_1 = t -> {
       LsdByLetter.preProcess(t);
       return t;
@@ -126,12 +124,6 @@ public class BenchmarkChineseSort {
 
     final Consumer<NameBySyllabification[]> NamePost_2 = t -> {
       int length = t.length;
-//      NameByLetter[] names_final = new NameByLetter[length];
-//      for (int j = 0; j < length; j++) {
-//        names_final[j] = new NameByLetter(t[j].getName());
-//      }
-//      Arrays.sort(names_final);
-
       String[] result = new String[length];
       for (int i = 0; i < length; i++) {
         result[i] = t[i].getName();
@@ -169,7 +161,7 @@ public class BenchmarkChineseSort {
 
     // LSD Sort
     RadixSort LsdBySyllabification = new LsdPinyinSyllabificationSort(
-        new HelperWIthTesting<>("LSD sort with Syllabification", nWords));
+        new HelperWIthTesting<>("LSD sort with Syllabification", nWords), 3);
     final UnaryOperator<String[]> LsdPre_2 = t -> {
       LsdBySyllabification.preProcess(t);
       return t;
@@ -197,23 +189,6 @@ public class BenchmarkChineseSort {
     }
     return res;
   }
-
-//  private List<String> readChineseArrayFromFile(String resource) {
-//    InputStream path = getClass().getResourceAsStream(resource);
-//    List<String> res = new ArrayList<>();
-//    try {
-//      assert path != null;
-//      BufferedReader reader = new BufferedReader(new InputStreamReader(path));
-//      String s;
-//      while ((s = reader.readLine()) != null) {
-//        res.add(s);
-//      }
-//      reader.close();
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-//    return res;
-//  }
 
   private static final HuskySequenceCoder<NameByLetter> nameCoderByLetter =
       new BaseHuskySequenceCoder<NameByLetter>("Name", 2) {

@@ -1,15 +1,5 @@
 package edu.neu.coe.info6205.team7.NameByLetter;
 
-import edu.neu.coe.info6205.team7.NameBySyllabification.ChsCharToIdxArrBySylla;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sourceforge.pinyin4j.PinyinHelper;
-import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
-import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
-import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
-import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
-import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 public class NameByLetter implements
     Comparable<NameByLetter>, CharSequence {

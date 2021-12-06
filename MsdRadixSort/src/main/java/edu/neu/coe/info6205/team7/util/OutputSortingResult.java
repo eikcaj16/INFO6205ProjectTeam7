@@ -5,9 +5,6 @@ import edu.neu.coe.huskySort.sort.huskySortUtils.HuskyCoderFactory;
 import edu.neu.coe.huskySort.sort.huskySortUtils.HuskySequenceCoder;
 import edu.neu.coe.huskySort.sort.simple.QuickSort_DualPivot;
 import edu.neu.coe.huskySort.sort.simple.TimSort;
-import edu.neu.coe.huskySort.util.SorterBenchmark;
-import edu.neu.coe.huskySort.util.TimeLogger;
-import edu.neu.coe.info6205.team7.Benchmark.BenchmarkChineseSort;
 import edu.neu.coe.info6205.team7.Benchmark.HelperWIthTesting;
 import edu.neu.coe.info6205.team7.NameByLetter.NameByLetter;
 import edu.neu.coe.info6205.team7.NameBySyllabification.NameBySyllabification;
@@ -18,10 +15,8 @@ import edu.neu.coe.info6205.team7.RadixSort.MsdPinyinLetterSort;
 import edu.neu.coe.info6205.team7.RadixSort.MsdPinyinSyllabificationSort;
 import edu.neu.coe.info6205.team7.RadixSort.RadixSort;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
-import java.util.function.UnaryOperator;
-import javax.naming.Name;
 
 public class OutputSortingResult {
 
@@ -35,16 +30,12 @@ public class OutputSortingResult {
   public void runOutput() {
     // Read words from file
     String[] data = FileUtil.readArrayFromFile("/shuffledChinese.txt");
-//    List<String> data = readChineseArrayFromFile("/shuffledChinese.txt");
-    List<String> toSort4M = new ArrayList<>();
-    for (int i = 0; i < 4; i++) {
-      Collections.addAll(toSort4M, data);
-    }
+    List<String> toSort = Arrays.asList(data);
 
     for (int size : datasetSize) {
-      sortChinese(toSort4M.subList(0, size).toArray(new String[0]),
-          constructNameByLetter(toSort4M, size).toArray(new NameByLetter[0]),
-          constructNameNameBySyllabification(toSort4M, size).toArray(new NameBySyllabification[0]));
+      sortChinese(toSort.subList(0, size).toArray(new String[0]),
+          constructNameByLetter(toSort, size).toArray(new NameByLetter[0]),
+          constructNameNameBySyllabification(toSort, size).toArray(new NameBySyllabification[0]));
     }
   }
 
@@ -56,7 +47,7 @@ public class OutputSortingResult {
     NameBySyllabification[] tempForSylla;
     String[] tempForString;
 
-    // With Letters
+    //================================== With Letters ==================================
     System.out.println("------------------------Sort with Letters-----------------");
     // Tim Sort
     TimSort<NameByLetter> tim_sorter = new TimSort<NameByLetter>(
@@ -98,7 +89,7 @@ public class OutputSortingResult {
     LsdByLetter.postProcess(tempForString);
     FileUtil.writeArrayToFile(tempForString, "LetterSortOrder/lsdsort_result.txt");
 
-    // With Syllabification
+    //================================== With Syllabification ==================================
     System.out.println("------------------------Sort with Syllabification-----------------");
     // Tim Sort
     TimSort<NameBySyllabification> tim_sorter_2 = new TimSort<NameBySyllabification>(
@@ -157,23 +148,6 @@ public class OutputSortingResult {
     }
     return res;
   }
-
-//  private List<String> readChineseArrayFromFile(String resource) {
-//    InputStream path = getClass().getResourceAsStream(resource);
-//    List<String> res = new ArrayList<>();
-//    try {
-//      assert path != null;
-//      BufferedReader reader = new BufferedReader(new InputStreamReader(path));
-//      String s;
-//      while ((s = reader.readLine()) != null) {
-//        res.add(s);
-//      }
-//      reader.close();
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-//    return res;
-//  }
 
   private static final HuskySequenceCoder<NameByLetter> nameCoderByLetter =
       new BaseHuskySequenceCoder<NameByLetter>("Name", 2) {
