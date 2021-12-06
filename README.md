@@ -2,9 +2,11 @@
 
 *Qinyun Lin, Xinlei Bian, Yiqing Huang (INFO6205 Sec 6 Team 7)*
 
+If you would like to run the project. Please download [HuskySort-0.0.1.jar](https://github.com/eikcaj16/INFO6205ProjectTeam7/releases) and place it into `./third_party/`.
 
 
-## Project Structure
+
+## Project Structure (Out-of-date)
 
 Maven project
 
@@ -40,15 +42,6 @@ Maven project
         ├── src
         └── target
 ```
-
-
-
-## Target
-
-- [ ] Pre-process based on *Pinyin* syllabification (*Qinyun*)
-- [ ] Pre-process based on *Pinyin* alphabet (*Xinlei*)
-
-- [ ] Implementation on *MSD Radix Sort* (*Yiqing*)
 
 
 
