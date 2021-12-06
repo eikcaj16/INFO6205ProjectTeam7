@@ -15,13 +15,23 @@ public class NameByLetter implements
     Comparable<NameByLetter>, CharSequence {
 
   private final String name;
-  private final int[] IndexArr;
+  private int[] IndexArr;
+  private boolean isInit = false;
 
   public NameByLetter(String name) {
     this.name = name;
 
     ChsCharToIdxArrByLetter processor = new ChsCharToIdxArrByLetter();
     IndexArr = processor.CharAt(name);
+  }
+
+  public NameByLetter[] preProcess(){
+    if(!isInit) {
+      ChsCharToIdxArrByLetter processor = new ChsCharToIdxArrByLetter();
+      IndexArr = processor.CharAt(name);
+      isInit = true;
+    }
+    return null;
   }
 
   public String getName() {
